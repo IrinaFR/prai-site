@@ -1,0 +1,20 @@
+
+@import "fonts/fonts";
+@import "helpers";
+
+body{
+	margin: 0;
+	padding: 0;
+	font-family: "Avenir Next Cyr", sans-serif;
+	line-height: 140%;
+	box-sizing: border-box;
+	color: $text-black
+}
+
+/* grid*/
+.container{
+	max-width: 1080px;
+	width: 100%;
+	margin: 0 auto;
+}
+
