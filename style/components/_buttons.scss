@@ -1,0 +1,35 @@
+button.btn,
+a.btn{
+	text-decoration: none;
+	font-size: 14px;
+	font-family: "Avenir Next Cyr", sans-serif;
+	font-weight: 500;
+	color: $white;
+	border-radius: 33px;
+	padding: 0 50px;
+	height: 48px;
+	min-width: 240px;
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+	justify-content: center;
+	border: none;
+	background: $blue;
+	cursor: pointer;
+	transition: $anim-small;
+	&:hover{
+		background: $dark-blue;
+	}
+}
+.pink{
+	background: $pink;
+	&:hover{
+		background: $dark-pink;
+	}
+}
+.green{
+	background: $green;
+	&:hover{
+		background: $dark-green;
+	}
+}

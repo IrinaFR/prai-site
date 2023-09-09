@@ -4,16 +4,14 @@
 		.semibold.size-14.dark-title-grey.offset-b-24 Услуги
 		.links-list
 			.links-list__main
-				nuxt-link.links-list__item(v-for="service in $store.getters.getMainServices" :key="service.icon" :to="service.link")
+				nuxt-link.links-list__item(v-for="service in $store.getters.getOurProducts" :key="service.icon" :to="service.link")
 					PraiUiIcon(:icon="'services/'+service.icon" :color="service.color" size="40")
 					.info
 						.title {{service.title}}
 						.description {{service.desc}}
-			.links-list__second
-				nuxt-link.links-list__item(v-for="service in $store.getters.getOtherServices" :key="service.title" :to="service.link")
-						.title {{service.title}}
 	.header-sidebar__info
-		.semibold.size-14.dark-title-grey.offset-b-24 Последние кейсы
+		.semibold.size-14.dark-title-grey.offset-b-24.withLink Блог
+			nuxt-link(to="/") Читать все
 		PraiHeaderBlock
 		PraiHeaderBlock
 </template>

@@ -14,7 +14,7 @@
 			},
 			shadow: {
 				type: Boolean,
-				default: true
+				default: false
 			}
 		},
 		computed: {
@@ -35,7 +35,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 	.prai-icon{
 		border-radius: 10px;
 		display: flex;

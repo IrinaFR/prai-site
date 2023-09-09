@@ -3,6 +3,9 @@ export default defineNuxtConfig({
 	typescript: {
 		strict: false
 	},
+	app: {
+		pageTransition: { name: 'page', mode: 'out-in' }
+	},
 	vite: {
 		css: {
 			preprocessorOptions: {

@@ -15,6 +15,7 @@
   "dependencies": {
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
-    "sass": "^1.66.1"
+    "sass": "^1.66.1",
+    "vuex": "^4.0.2"
   }
 }

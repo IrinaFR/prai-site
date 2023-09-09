@@ -3,9 +3,18 @@ $text-black: #010004;
 $bg-block-black: #0E0C15;
 $white: #ffffff;
 $blue: #3843FF;
+$dark-blue: #1722bd;
 $pink: #CB38FF;
+$dark-pink: #9b16cb;
 $green: #00C838;
+$dark-green: #08982e;
 $light-border: #E7E8EE;
 $dark-border: rgba(255,255,255, .08);
 $light-secondary-text: #606672;
 $dark-secondary-text: #A9A9A9;
+$radius-small: 24px;
+$radius-big: 64px;
+
+$anim-small: .35s cubic-bezier(.645, .045, .355, 1);
+$anim-long: .55s cubic-bezier(.645, .045, .355, 1)
+
