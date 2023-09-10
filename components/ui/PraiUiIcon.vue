@@ -15,11 +15,15 @@
 			shadow: {
 				type: Boolean,
 				default: false
+			},
+			radius: {
+				type: [String, Number],
+				default: 10
 			}
 		},
 		computed: {
 			style(){
-				let style = `background:${this.color};width:${this.size}px;min-width:${this.size}px;height:${this.size}px;`
+				let style = `background:${this.color};width:${this.size}px;min-width:${this.size}px;height:${this.size}px;border-radius:${this.radius}px;`
 				if(this.shadow) style += `box-shadow: 0px 13px 21px 7px ${this.hexToRgb(this.color)}`
 				return style
 			}
@@ -37,12 +41,11 @@
 
 <style scoped lang="scss">
 	.prai-icon{
-		border-radius: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		img{
-			width: 80%;
+			width: 70%;
 		}
 	}
 </style>

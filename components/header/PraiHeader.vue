@@ -35,7 +35,7 @@
 			return{
 				logo: '#3843FF',
 				border: 'rgba(0, 114, 250, 0.18)',
-				bgHeader: 'rgba(255, 255, 255, 0.50)',
+				bgHeader: 'rgba(255, 255, 255, 0.70)',
 				colorHeader: '#010004',
 				sidebar: ''
 			}
@@ -51,7 +51,6 @@
 		methods: {
 			$_prai_header_toggleSidebar(page){
 				this.sidebar = page
-				console.log(this.sidebar)
 				this.$_prai_header_animateHeight()
 			},
 			$_prai_header_animateHeight(){
@@ -80,12 +79,13 @@
 		background: var(--bgHeader);
 		border-radius: $radius-big;
 		width: calc(100% - 64px);
-		max-width: 1080px;
+		max-width: calc(1080px - 64px);
 		position: fixed;
+		z-index: 100;
 		top: 30px;
 		margin: auto;
 		padding: 0 24px 0 40px;
-		backdrop-filter: blur(3.5px);
+		backdrop-filter: blur(4px);
 		transition: $anim-long;
 		&.open{
 			border-radius: $radius-small;

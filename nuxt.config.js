@@ -17,5 +17,4 @@ export default defineNuxtConfig({
 	},
 	css: ['~/style/style.scss'],
 	devtools: { enabled: true },
-
 })

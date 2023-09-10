@@ -1,3 +1,7 @@
 <template lang="pug">
-h1 Index
+PraiIndexScreen
 </template>
+
+<script setup>
+	import PraiIndexScreen from "/components/index/PraiIndexScreen.vue";
+</script>
