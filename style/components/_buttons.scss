@@ -33,3 +33,29 @@ a.btn{
 		background: $dark-green;
 	}
 }
+
+
+button.btn-outline,
+a.btn-outline{
+	height: 44px;
+	border-radius: $radius-small;
+	border: solid 1px $light-border;
+	background: $white;
+	padding: 0 57px;
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+	justify-content: center;
+	font-size: 14px;
+	transition: $anim-small;
+	cursor: pointer;
+	img{
+		transform: rotate(-90deg);
+		filter: brightness(0);
+	}
+	&:hover{
+		column-gap: 12px;
+		border: solid 1px $blue;
+		padding: 0 55px;
+	}
+}

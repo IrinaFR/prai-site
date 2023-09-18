@@ -2,8 +2,11 @@
 @import "fonts/fonts";
 @import "helpers";
 
+@import 'swiper/css';
+@import './components/swiper';
 @import './components/headerSidebarContent';
 @import './components/buttons';
+@import './components/forms';
 
 body{
 	margin: 0;
@@ -13,14 +16,96 @@ body{
 	box-sizing: border-box;
 	color: $text-black
 }
+a{
+	text-decoration: none;
+	color: inherit;
+}
+h1, h2, h3, h4, h5, h6{
+	margin-bottom: 0;
+}
 
 /* grid*/
 .container{
-	max-width: 1080px;
-	width: 100%;
+	max-width: calc(1080px - 20px);
+	width: calc(100% - 20px);
 	margin: 0 auto;
+	padding: 0 10px;
 }
 
+.bg-black{
+	width: 100%;
+	background: $bg-block-black;
+	border-radius: $radius-small;
+	padding: 50px 0;
+}
+
+.title-block{
+	display: flex;
+	flex-direction: column;
+	&.center{
+		align-items: center;
+		text-align: center;
+		.title{
+			justify-content: center;
+		}
+	}
+	&.white{
+		.title{
+			color: $white;
+		}
+		.description{
+			color: $white;
+		}
+	}
+	.title{
+		font-weight: 600;
+		font-size: 36px;
+		margin-top: 11px;
+		margin-bottom: 35px;
+		color: $text-black;
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: 12px;
+		line-height: 140%;
+	}
+	.description{
+		font-size: 14px;
+		line-height: 140%;
+		max-width: 55%;
+		color: $dark-secondary-text;
+		@media(max-width: 768px){
+			max-width: 90%;
+		}
+	}
+}
+.subtitle-card{
+	font-size: 12px;
+	font-weight: 600;
+	height: 25px;
+	width: fit-content;
+	border-radius: $radius-small;
+	padding: 0 15px;
+	line-height: 25px;
+	&.uppercase{
+		text-transform: uppercase;
+	}
+	&.blue{
+		color: $blue;
+		background: rgba(0, 114, 250, 0.20);
+	}
+	&.pink{
+		color: $pink;
+		background: rgba(250, 0, 150, 0.20);
+	}
+	&.light-pink{
+		color: $light-pink;
+		background: rgba(250, 0, 150, 0.20);
+	}
+	&.green{
+		color: $green;
+		background: rgba(0, 200, 56, 0.20);
+	}
+}
 
 @keyframes cardIcon{
 	0%{
@@ -41,4 +126,23 @@ body{
 .page-leave-to {
 	opacity: 0;
 	filter: blur(1rem);
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: $blue transparent;
+}
+
+*::-webkit-scrollbar {
+	width: 1px;
+}
+
+*::-webkit-scrollbar-track {
+	background: $bg-block-black;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: $blue;
+	border-radius: 3px;
+	border: none;
 }

@@ -1,0 +1,99 @@
+.swiper-wrapper{
+	padding-bottom: 44px;
+}
+@import "swiper/css/scrollbar";
+
+// swiper-button-disabled
+.hack-slider-navigation{
+	.hack-swiper-button-prev,
+	.hack-swiper-button-next{
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		background: #FFFFFF;
+		box-shadow: 0 4px 20px 0 rgba(69, 93, 178, 0.25);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1;
+		cursor: pointer;
+		transition: $anim-small;
+		&:hover{
+			background: rgba(0,114,250, .5);
+		}
+		img{
+			height: 6px;
+			pointer-events: none;
+		}
+	}
+	.hack-swiper-button-prev{
+		left: 30px;
+		img{
+			transform: rotate(90deg);
+		}
+	}
+	.hack-swiper-button-next{
+		right: 30px;
+		img{
+			transform: rotate(-90deg);
+		}
+	}
+	@media(max-width: 530px){
+		.hack-swiper-button-prev{
+			left: 10px;
+		}
+		.hack-swiper-button-next{
+			right: 10px;
+		}
+	}
+}
+// светлый пагинатор
+.hack-slider-show-slider .swiper-pagination{
+	display: flex;
+	align-items: center;
+	column-gap: 16px;
+	padding: 6px;
+	background: #fff;
+	box-shadow: 0 4px 20px 0 rgba(69, 93, 178, 0.25);
+	border-radius: 30px;
+	width: fit-content;
+	margin: auto;
+	margin-top: -100px;
+	z-index: 1;
+	position: relative;
+	&-bullet{
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		background: #ffffff;
+		position: relative;
+		border: solid 1px $light-border;
+		transition: $anim-small;
+		cursor: pointer;
+		&::after{
+			content: '';
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			background: rgba(0,114,250, .5);
+			transform: translate(-50%, -50%);
+			transition: $anim-small;
+		}
+		&:hover::after{
+			background: $blue;
+		}
+		&-active{
+			border: solid 1px $blue;
+			&::after{
+				background: $blue;
+			}
+		}
+	}
+}
+

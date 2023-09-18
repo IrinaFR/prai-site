@@ -47,7 +47,7 @@
 		width: 293px;
 		@media(max-width: 768px){
 			position: relative;
-			left: 10px;
+			left: 5px;
 			right: auto;
 			top: 60px;
 			height: 176px;

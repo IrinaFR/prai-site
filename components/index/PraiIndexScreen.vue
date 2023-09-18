@@ -8,7 +8,7 @@
 				br
 				| веб и мобильные приложения
 			.subtitle Более 12 лет создаем будущее технологий вместе!
-			PraiUiButtons.mx-auto
+			PraiUiButtons.mx-auto(text="Рассчитать стоимость")
 		.main-screen-icons
 			PariScreenCardsGraphic.cardAnimate
 			PariScreenCardsMsg.cardAnimate
@@ -119,7 +119,7 @@
 
 <style lang="scss">
 	.main-screen{
-		height: calc(100vh - 120px);
+		height: calc(100vh - 140px);
 		width: 100vw;
 		max-width: calc(100vw - 15px);
 		@media(max-width: 768px) {

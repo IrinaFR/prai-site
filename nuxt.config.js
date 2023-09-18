@@ -16,5 +16,9 @@ export default defineNuxtConfig({
 		}
 	},
 	css: ['~/style/style.scss'],
+	sourcemap: {
+		server: true,
+		client: false
+	},
 	devtools: { enabled: true },
 })

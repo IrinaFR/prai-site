@@ -1,5 +1,5 @@
 <template lang="pug">
-nuxt-link.info-block(to="/service")
+nuxt-link.info-block(to="/")
 	.image
 		img(src="/img/cases/code.svg")
 	.info

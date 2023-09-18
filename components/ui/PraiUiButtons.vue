@@ -1,9 +1,17 @@
 <template lang="pug">
 .btn-animate
 	.base
-	.content Рассчитать стоимость
+	.content {{text}}
 
 </template>
+
+<script>
+	export default {
+		props: {
+			text: String,
+		}
+	}
+</script>
 
 <style scoped lang="scss">
 	.btn-animate{
@@ -30,8 +38,6 @@
 				}
 			}
 		}
-
-
 		.base{
 			height: 48px;
 			background: #5487EB;
@@ -46,7 +52,6 @@
 			background: $blue;
 			height: 48px;
 			border-radius: 33px;
-			width: fit-content;
 			display: flex;
 			align-items: center;
 			column-gap: 8px;
