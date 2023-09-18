@@ -78,7 +78,7 @@
 		height: fit-content;
 		background: var(--bgHeader);
 		border-radius: $radius-big;
-		width: calc(100% - 64px);
+		width: calc(100% - 84px);
 		max-width: calc(1080px - 64px);
 		position: fixed;
 		z-index: 100;
