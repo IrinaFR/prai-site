@@ -2,9 +2,9 @@
 .integration
 	.container
 		.title-block.center
-			.subtitle-card.blue.uppercase Интеграции
+			.subtitle-card.uppercase(:class="props.class") Интеграции
 			h2.title
-				span.pacifico Интеграция
+				span.pacifico(:class="props.class") Интеграция
 				| различных сервисов
 			.description Мы усилим функциональность ваших продуктов через интеграцию с различными сервисами, включая платежные системы, социальные сети, геолокационные данные и другие приложения. Наша команда обеспечит гладкое взаимодействие, расширяя функциональность продукта и повышая удовлетворение клиентов.
 
@@ -26,6 +26,14 @@
 </template>
 
 <script setup>
+
+	const props = defineProps({
+		class: {
+			type: String,
+			default: ''
+		}
+	})
+
 	const services = {
 		part_1: [
 			{title: 'Интеграция с Альфа Банк', icon: 'alpha.svg'},

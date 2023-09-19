@@ -69,4 +69,10 @@ form .tip{
 		text-decoration: underline;
 		margin-left: 3px;
 	}
+	&.light-pink a{
+		color: $light-pink;
+	}
+	&.green a{
+		color: $green;
+	}
 }

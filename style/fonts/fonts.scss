@@ -60,6 +60,15 @@
 	font-weight: 400;
 	color: $blue;
 	text-decoration: underline;
+	&.light-pink{
+		color: $light-pink;
+	}
+	&.pink{
+		color: $pink;
+	}
+	&.green{
+		color: $green;
+	}
 }
 .size-12{
 	font-size: 12px;

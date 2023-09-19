@@ -6,7 +6,7 @@
 			.gradient_2
 			.col-cases
 				.title-block.white
-					.subtitle-card.blue.uppercase Кейсы
+					.subtitle-card.uppercase(:class="$props.class") Кейсы
 					h2.title Выполненные проекты
 				PraiUiCardCase
 				.card-feedback(v-if="$store.getters.getWidth > 600")
@@ -14,12 +14,12 @@
 					.description Оставьте номер телефона и мы вам перезвоним
 					form
 						input(placeholder="+7 999 000-00-00")
-						PraiUiButtons.btn-full(text="Связаться с нами" full)
+						PraiUiButtons(text="Связаться с нами" :class="$props.class + ' btn-full'")
 						label.loadFile(for="feedbackPinFile")
 							input.d-none#feedbackPinFile(type="file")
 							img(src="/img/form/document.svg")
 							| Прикрепить файл
-						.tip Отправляя форму, вы соглашаетесь с
+						.tip(:class="$props.class") Отправляя форму, вы соглашаетесь с
 							a(href="/") политикой конфинденциальности
 			.col-cases
 				PraiUiCardCase
@@ -29,14 +29,14 @@
 					.description Оставьте номер телефона и мы вам перезвоним
 					form
 						input(placeholder="+7 999 000-00-00")
-						PraiUiButtons.btn-full(text="Связаться с нами" full)
+						PraiUiButtons(text="Связаться с нами" :class="$props.class + ' btn-full'")
 						label.loadFile(for="feedbackPinFile")
 							input.d-none#feedbackPinFile(type="file")
 							img(src="/img/form/document.svg")
 							| Прикрепить файл
-						.tip Отправляя форму, вы соглашаетесь с
+						.tip(:class="$props.class") Отправляя форму, вы соглашаетесь с
 							a(href="/") политикой конфинденциальности
-		PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" )
+		PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" :class="$props.class")
 
 </template>
 
@@ -44,7 +44,13 @@
 	import PraiUiCardCase from '/components/ui/PraiUiCardCase.vue'
 	import PraiUiButtons from '/components/ui/PraiUiButtons.vue'
 	export default {
-		components: { PraiUiCardCase, PraiUiButtons }
+		components: { PraiUiCardCase, PraiUiButtons },
+		props: {
+			class: {
+				type: String,
+				default: 'blue'
+			}
+		}
 	}
 </script>
 

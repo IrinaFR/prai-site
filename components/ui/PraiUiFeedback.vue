@@ -6,12 +6,12 @@
 		.feedback-form
 			form
 				.title-block.white
-					.subtitle-card.blue.uppercase Обратная связь
+					.subtitle-card.uppercase(:class="props.class") Обратная связь
 					h2.title.mb-0 Заказать звонок
 				.description Оставьте номер телефона и мы вам перезвоним
 				input(placeholder="+7 999 000-00-00")
-				PraiUiButtons.btn-full(text="Связаться с нами" full)
-				.tip Отправляя форму, вы соглашаетесь с
+				PraiUiButtons.btn-full(text="Связаться с нами" :class="props.class")
+				.tip(:class="props.class") Отправляя форму, вы соглашаетесь с
 					a(href="/") политикой конфинденциальности
 			.feedback-form-social
 				a.icon.vk(href="/")
@@ -24,6 +24,14 @@
 
 <script setup>
 	import PraiUiButtons from '/components/ui/PraiUiButtons.vue'
+	import {defineProps} from "vue";
+
+	const props = defineProps({
+		class: {
+			type: String,
+			default: 'blue'
+		}
+	})
 </script>
 
 <style lang="scss">

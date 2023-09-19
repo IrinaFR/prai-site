@@ -4,7 +4,6 @@
 
 @import 'swiper/css';
 @import './components/swiper';
-@import './components/headerSidebarContent';
 @import './components/buttons';
 @import './components/forms';
 
@@ -14,7 +13,8 @@ body{
 	font-family: "Avenir Next Cyr", sans-serif;
 	line-height: 140%;
 	box-sizing: border-box;
-	color: $text-black
+	color: $text-black;
+	scroll-behavior: smooth;
 }
 a{
 	text-decoration: none;
@@ -139,6 +139,7 @@ h1, h2, h3, h4, h5, h6{
 
 *::-webkit-scrollbar-track {
 	background: $bg-block-black;
+	border-radius: 7px;
 }
 
 *::-webkit-scrollbar-thumb {

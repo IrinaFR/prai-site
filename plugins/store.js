@@ -3,6 +3,12 @@ import { createStore } from "vuex";
 const store = createStore({
 	state() {
 		return {
+			header: {
+				logo: '#3843FF',
+				border: 'rgba(0, 114, 250, 0.18)',
+				bgHeader: 'rgba(255, 255, 255, 0.70)',
+				colorHeader: '#010004',
+			},
 			mainServices: [
 				{
 					title: 'Нейросети (NLP)',
@@ -15,7 +21,7 @@ const store = createStore({
 					title: 'Веб-приложения',
 					desc: 'Разбираемся в вашей задаче, разрабатываем и проектируем веб-сервисы под ключ, ведём сопровождение',
 					icon: 'web.svg',
-					link: '/',
+					link: '/veb-prilozheniya',
 					color: '#FA0096'
 				},
 				{
@@ -108,8 +114,10 @@ const store = createStore({
 	},
 	mutations: {
 		setWidthScreen(state, width){
-			console.log(width)
 			state.width = width
+		},
+		setHeader(state, data){
+			state.header = data
 		}
 	},
 	getters: {
@@ -130,6 +138,9 @@ const store = createStore({
 		},
 		getWidth: state => {
 			return state.width
+		},
+		getHeader: state => {
+			return state.header
 		},
 	}
 });

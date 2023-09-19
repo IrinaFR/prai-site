@@ -1,5 +1,5 @@
 <template lang="pug">
-.btn-animate
+.btn-animate(:class="$props.class")
 	.base
 	.content {{text}}
 
@@ -9,6 +9,10 @@
 	export default {
 		props: {
 			text: String,
+			class: {
+				type: String,
+				default: ''
+			}
 		}
 	}
 </script>
@@ -47,7 +51,6 @@
 			top: -2px;
 			transition: $anim-long;
 		}
-
 		.content{
 			background: $blue;
 			height: 48px;
@@ -91,6 +94,26 @@
 				height: calc(100% - 4px);
 				background: $blue;
 				border-radius: 33px;
+			}
+		}
+		&.light-pink{
+			&:hover{
+				box-shadow: 0 0 46px 29px rgba(246, 20, 156, 0.20);
+				.content:hover{
+					box-shadow: 0 0 0 5px rgba(246, 20, 156, 0.25);
+				}
+			}
+			.base{
+				background: $light-pink;
+			}
+			.content{
+				background: $light-pink;
+				&::before{
+					background-image: linear-gradient(#ffb4c8, rgba(255, 33, 74, 0.99)), linear-gradient(#ff2121, rgba(255, 33, 59, 0.99)), linear-gradient(#ED2127, #ED2127), linear-gradient(#ED2127, #ffffff);
+				}
+				&::after{
+					background:$light-pink;
+				}
 			}
 		}
 	}

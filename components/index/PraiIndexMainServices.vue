@@ -27,7 +27,7 @@
 					.ring
 					.ring
 					.ring
-		router-link.services-list-item.web(to="/")
+		router-link.services-list-item.web(to="/veb-prilozheniya")
 			.info
 				.title
 					PraiUiIcon(icon="/services/web.svg" color="#FA0096")
