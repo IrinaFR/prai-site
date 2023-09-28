@@ -1,10 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+	ssr: true,
 	typescript: {
 		strict: false
-	},
-	app: {
-		pageTransition: { name: 'page', mode: 'out-in' }
 	},
 	vite: {
 		css: {
@@ -17,7 +15,7 @@ export default defineNuxtConfig({
 	},
 	css: ['~/style/style.scss'],
 	sourcemap: {
-		server: true,
+		server: false,
 		client: false
 	},
 	devtools: { enabled: true },
