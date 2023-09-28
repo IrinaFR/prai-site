@@ -170,8 +170,9 @@
 		created() {
 			this.$store.commit('setHeader', {
 				logo: '#DE39E1',
+				opacity: 0.78,
 				border: 'rgba(250, 0, 150, 0.08)',
-				bgHeader: 'rgba(10, 10, 10, 0.87)',
+				bgHeader: '10, 10, 10,',
 				colorHeader: '#ffffff',
 			})
 		},
