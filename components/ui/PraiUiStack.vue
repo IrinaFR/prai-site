@@ -156,6 +156,7 @@
 				img{
 					max-width: 42px;
 					max-height: 42px;
+					pointer-events: none;
 				}
 			}
 			.title{
@@ -165,7 +166,7 @@
 				padding: 0 20px;
 				box-shadow: 0 4px 20px 0 rgba(69, 93, 178, 0.12);
 				font-size: 12px;
-				font-weight: 700;
+				font-weight: 600;
 				color: $white;
 				@media(max-width: 400px){
 					padding: 0 5px;

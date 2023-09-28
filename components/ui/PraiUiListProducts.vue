@@ -25,7 +25,15 @@
 				type: String,
 				default: 'blue'
 			},
-		}
+		},
+		// mounted() {
+		// 	this.$_ui_list_products_setPaws()
+		// },
+		// methods: {
+		// 	$_ui_list_products_setPaws(){
+		//
+		// 	}
+		// }
 	}
 </script>
 

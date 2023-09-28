@@ -109,7 +109,7 @@ const store = createStore({
 					color: '#0082FA'
 				}
 			],
-			width: 0
+			width: 1440
 		};
 	},
 	mutations: {

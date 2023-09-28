@@ -24,7 +24,7 @@
 	import PraiUiButtons from "/components/ui//PraiUiButtons.vue";
 	export default {
 		mounted() {
-			this.$_index_screen_createCanvas()
+			if(process.client) this.$_index_screen_createCanvas()
 			this.$_index_screen_flyCard()
 		},
 		methods: {
@@ -44,42 +44,42 @@
 				}
 			},
 			$_index_screen_createCanvas(){
-				const canvas_gradient = document.getElementById('canvasGradient')
-				const ctx_gradient = canvas_gradient.getContext('2d')
-				canvas_gradient.width = window.innerWidth
-				canvas_gradient.height = window.innerHeight
-
-				// circle 1
-				const gradient_1 = ctx_gradient.createLinearGradient(canvas_gradient.width / 2.6 + 210, canvas_gradient.height * 0.45 - 210, canvas_gradient.width / 2.6 - 210, canvas_gradient.height * 0.45 + 210)
-				gradient_1.addColorStop(0, '#A5A7F9')
-				gradient_1.addColorStop(1, '#E18CFF')
-				ctx_gradient.fillStyle = gradient_1
-				ctx_gradient.arc(canvas_gradient.width / 2.6, canvas_gradient.height * 0.45, 210, 0, Math.PI * 2)
-				ctx_gradient.fill()
-				ctx_gradient.beginPath()
-				// circle 2
-				const gradient_2 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.2 - 150, canvas_gradient.width / 1.8 - 150, canvas_gradient.height * 0.2 + 150)
-				gradient_2.addColorStop(0, '#A5A7FA')
-				gradient_2.addColorStop(1, '#E18CFF')
-				ctx_gradient.fillStyle = gradient_2
-				ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.2, 150, 0, Math.PI * 2)
-				ctx_gradient.fill()
-				ctx_gradient.beginPath()
-				// circle 3
-				const gradient_3 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 - 115, canvas_gradient.height * 0.39 + 115, canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.39 - 115)
-				gradient_3.addColorStop(0, '#2A50D9')
-				gradient_3.addColorStop(1, '#E18CFF')
-				ctx_gradient.fillStyle = gradient_3
-				ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.39, 115, 0, Math.PI * 2)
-				ctx_gradient.fill()
-				ctx_gradient.beginPath()
-				// circle 4
-				const gradient_4 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.9 + 115, canvas_gradient.height * 0.57 - 115, canvas_gradient.width / 1.9 - 115, canvas_gradient.height * 0.57 + 115)
-				gradient_4.addColorStop(0, '#A5A7FA')
-				gradient_4.addColorStop(1, '#E18CFF')
-				ctx_gradient.fillStyle = gradient_4
-				ctx_gradient.arc(canvas_gradient.width / 1.9, canvas_gradient.height * 0.57, 115, 0, Math.PI * 2)
-				ctx_gradient.fill()
+				// const canvas_gradient = document.getElementById('canvasGradient')
+				// const ctx_gradient = canvas_gradient.getContext('2d')
+				// canvas_gradient.width = window.innerWidth
+				// canvas_gradient.height = window.innerHeight
+				//
+				// // circle 1
+				// const gradient_1 = ctx_gradient.createLinearGradient(canvas_gradient.width / 2.6 + 210, canvas_gradient.height * 0.45 - 210, canvas_gradient.width / 2.6 - 210, canvas_gradient.height * 0.45 + 210)
+				// gradient_1.addColorStop(0, '#A5A7F9')
+				// gradient_1.addColorStop(1, '#E18CFF')
+				// ctx_gradient.fillStyle = gradient_1
+				// ctx_gradient.arc(canvas_gradient.width / 2.6, canvas_gradient.height * 0.45, 210, 0, Math.PI * 2)
+				// ctx_gradient.fill()
+				// ctx_gradient.beginPath()
+				// // circle 2
+				// const gradient_2 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.2 - 150, canvas_gradient.width / 1.8 - 150, canvas_gradient.height * 0.2 + 150)
+				// gradient_2.addColorStop(0, '#A5A7FA')
+				// gradient_2.addColorStop(1, '#E18CFF')
+				// ctx_gradient.fillStyle = gradient_2
+				// ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.2, 150, 0, Math.PI * 2)
+				// ctx_gradient.fill()
+				// ctx_gradient.beginPath()
+				// // circle 3
+				// const gradient_3 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 - 115, canvas_gradient.height * 0.39 + 115, canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.39 - 115)
+				// gradient_3.addColorStop(0, '#2A50D9')
+				// gradient_3.addColorStop(1, '#E18CFF')
+				// ctx_gradient.fillStyle = gradient_3
+				// ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.39, 115, 0, Math.PI * 2)
+				// ctx_gradient.fill()
+				// ctx_gradient.beginPath()
+				// // circle 4
+				// const gradient_4 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.9 + 115, canvas_gradient.height * 0.57 - 115, canvas_gradient.width / 1.9 - 115, canvas_gradient.height * 0.57 + 115)
+				// gradient_4.addColorStop(0, '#A5A7FA')
+				// gradient_4.addColorStop(1, '#E18CFF')
+				// ctx_gradient.fillStyle = gradient_4
+				// ctx_gradient.arc(canvas_gradient.width / 1.9, canvas_gradient.height * 0.57, 115, 0, Math.PI * 2)
+				// ctx_gradient.fill()
 
 				//grid
 				const canvas_grid = document.getElementById('canvasGrid')

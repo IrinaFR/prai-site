@@ -1,6 +1,10 @@
 # prai-site
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+
+```bash
+# node version
+18.16.0
+```
 
 ## Setup
 

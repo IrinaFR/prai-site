@@ -10,8 +10,8 @@ PraiFooter
 	import PraiFooter from "/components/footer/PraiFooter.vue";
 	export default {
 		components: { PraiHeader, PraiMobileHeader, PraiFooter },
-		mounted() {
-			this.$_prai_app_updateWidth()
+		async mounted() {
+			await this.$_prai_app_updateWidth()
 			window.addEventListener('resize', this.$_prai_app_updateWidth);
 		},
 		methods: {
