@@ -5,8 +5,9 @@ const store = createStore({
 		return {
 			header: {
 				logo: '#3843FF',
+				opacity: 0.70,
 				border: 'rgba(0, 114, 250, 0.18)',
-				bgHeader: 'rgba(255, 255, 255, 0.70)',
+				bgHeader: '255, 255, 255',
 				colorHeader: '#010004',
 			},
 			mainServices: [
