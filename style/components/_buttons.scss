@@ -20,19 +20,20 @@ a.btn{
 	&:hover{
 		background: $dark-blue;
 	}
-}
-.pink{
-	background: $pink;
-	&:hover{
-		background: $dark-pink;
+	&.pink{
+		background: $pink;
+		&:hover{
+			background: $dark-pink;
+		}
+	}
+	&.green{
+		background: $green;
+		&:hover{
+			background: $dark-green;
+		}
 	}
 }
-.green{
-	background: $green;
-	&:hover{
-		background: $dark-green;
-	}
-}
+
 
 
 button.btn-outline,

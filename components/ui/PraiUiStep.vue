@@ -4,7 +4,7 @@
 		.title-block.center
 			.subtitle-card.uppercase(:class="$props.class") Agile
 			h2.title Этапы работы
-		.step-work-list
+		.step-work-list(:class="$props.class")
 			.step-work-list-slider
 				swiper.step-swiper(
 					:spaceBetween="16"
@@ -17,7 +17,7 @@
 					swiper-slide.step-swiper-slide(v-for="step in steps")
 						ul
 							li(v-for="item in step.list" ) {{item}}
-			.step-work-list-progress(:style="'--step:' + progress + '%'" )
+			.step-work-list-progress(:style="`--step:${progress}%`")
 				.point(v-for="idx in steps.length" :class="{active:swiperRef?.activeIndex >= idx - 1}")
 			.step-work-list-items
 				.item(v-for="step in steps")
@@ -67,13 +67,17 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 						start: '-100px top',
 						scrub: 0.5,
 						pin: true,
-						onUpdate: ({ progress }) => this.swiperRef.setProgress(progress)
+						onUpdate: ({ progress }) => {
+							if(!this.swiperRef.destroyed) this.swiperRef?.setProgress(progress)
+						}
 					},
 				})
 			},
 			$_ui_stack_getRefSwiper(swiper){
-				this.swiperRef = swiper
-				this.$_ui_stack_setGSAP()
+				if(process.client){
+					this.swiperRef = swiper
+					this.$_ui_stack_setGSAP()
+				}
 			}
 		}
 	}
@@ -90,6 +94,13 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 			display: grid;
 			grid-column-gap: 45px;
 			grid-template-columns: 1fr 15px 1fr;
+			--bg: #0072FA;
+			&.light-pink{
+				--bg: #ff4bb5;
+			}
+			&.green{
+				--bg: #00C838;
+			}
 			&-slider{
 				mask-image: linear-gradient(
 						to bottom,
@@ -117,7 +128,7 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 						z-index: 1;
 						&.swiper-slide-active{
 							opacity: 1;
-							border: solid 1px $light-pink;
+							border: solid 1px var(--bg);
 						}
 						ul{
 							padding-left: 18px;
@@ -145,7 +156,7 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 					transform: translateX(-50%);
 					width: 3px;
 					height: 100%;
-					background: linear-gradient(180deg, #F425A2 0%, #F425A2 var(--step), #FA0096 calc(var(--step) + 0.01%), #D9D9D9 calc(var(--step) + 0.02%));
+					background: linear-gradient(180deg, var(--bg) 0%, var(--bg) var(--step), var(--bg) calc(var(--step) + 0.01%), #D9D9D9 calc(var(--step) + 0.02%));
 					border-radius: 3px;
 				}
 				.point{
@@ -154,7 +165,7 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 					background: #E7E8EE;
 					border-radius: 50%;
 					&.active{
-						background: $light-pink;
+						background: var(--bg);
 					}
 				}
 			}
