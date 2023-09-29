@@ -6,6 +6,7 @@
 		.title-block.white.center
 			.subtitle-card.uppercase(:class="$props.class") {{$props.subtitle}}
 			h2.title Наши преимущества
+			.description(v-if="description" ) {{description}}
 		.list-benefits
 			.list-benefits-item(v-for="item in benefits" )
 				.title {{item.title}}
@@ -20,6 +21,10 @@
 				type: String,
 				default: 'blue'
 			},
+			description: {
+				type: String,
+				default: ''
+			},
 			subtitle: String,
 			benefits: Array
 		}
@@ -32,6 +37,10 @@
 		.title-block{
 			position: relative;
 			z-index: 1;
+			.description{
+				color: #A9A9A9;
+				margin-bottom: 22px;
+			}
 		}
 		.gradient_1 {
 			position: absolute;

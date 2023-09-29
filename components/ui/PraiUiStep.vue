@@ -37,7 +37,7 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 		props: {
 			class: {
 				type: String,
-				default: ''
+				default: 'blue'
 			},
 			steps: Array
 		},

@@ -15,7 +15,7 @@ const store = createStore({
 					title: 'Нейросети (NLP)',
 					desc: 'Работаем с естесственным языком. Создаем и внедряем решения в области машинного зрения',
 					icon: 'ai.svg',
-					link: '/',
+					link: '/razrabotka-nejrosetej',
 					color: '#0072FA'
 				},
 				{
