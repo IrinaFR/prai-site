@@ -3,12 +3,11 @@
 	.title-block.center.white
 		.subtitle-card.blue.uppercase Услуги
 		h2.title Исследуйте наши
-			span.pacifico удивительные
-			| возможности
+			span.pacifico возможности
 		.description Работая с каждым клиентом как с единственным, мы помогаем бизнесам и стартапам становиться лидерами за счёт разработки и внедрения уникального программного обеспечения и сервисов
 	.services-list
 		.gradient
-		router-link.services-list-item.ai(to="/")
+		router-link.services-list-item.ai(to="/razrabotka-nejrosetej")
 			.info
 				.title
 					PraiUiIcon(icon="/services/ai.svg" color="#0072FA")
@@ -27,7 +26,7 @@
 					.ring
 					.ring
 					.ring
-		router-link.services-list-item.web(to="/veb-prilozheniya")
+		router-link.services-list-item.web(to="/web-prilozheniya")
 			.info
 				.title
 					PraiUiIcon(icon="/services/web.svg" color="#FA0096")
@@ -41,7 +40,7 @@
 			.animate
 				.ctrl
 					.sphere
-		router-link.services-list-item.app(to="/")
+		router-link.services-list-item.app(to="/mobilnaya-razrabotka")
 			.info
 				.title
 					PraiUiIcon(icon="/services/app.svg" color="#28AF07")

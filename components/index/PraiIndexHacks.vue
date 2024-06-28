@@ -1,7 +1,7 @@
 <template lang="pug">
 .container
 	.hack-slider
-		.hack-slider-show(ref="currentSlide")
+		.hack-slider-show(ref="currentSlide" v-if="hackatons.length" )
 			.hack-slider-show-slider-parent
 				.hack-slider-show-slider
 					swiper(
@@ -12,8 +12,8 @@
 						:slidesPerView="'auto'"
 						class="hack-swiper"
 						@swiper="$_index_hack_slider_setSwiper")
-						swiper-slide.hack-swiper-slide(v-for="slide in hackatons[current].diplomas" )
-							img(:src="'/img/awards/' + slide")
+						swiper-slide.hack-swiper-slide(v-for="slide in hackatons[current].files" )
+							img(:src="`${storeRequest.config.app.apiServerImg}photo/hackatons/${slide}`")
 					.hack-slider-navigation
 						.hack-swiper-button-prev(@click="$_index_hack_slider_miniSlideTo('prev')")
 							img(src="/img/arrow.svg" alt="icon")
@@ -25,12 +25,12 @@
 				.hack-name.mb-24
 					span.current {{current + 1}} -
 					span.bracket [
-					|  {{hackatons[current].title}}
+					|  {{hackatons[current].name}}
 					span.bracket  ]
 				.title Кейс:
-				.size-14.light-grey {{hackatons[current].case}}
+				.size-14.light-grey {{hackatons[current].task}}
 				.title.mt-8 Наше решение:
-				.size-14.light-grey {{hackatons[current].final}}
+				.size-14.light-grey {{hackatons[current].solve}}
 				.awards
 					img(:src="`/img/awards/medal-${hackatons[current].award}.svg`" alt="icon" v-if="showPlace")
 					| {{hackatons[current].award}} место
@@ -50,58 +50,48 @@
 	import { Swiper, SwiperSlide } from "swiper/vue";
 	import { Pagination } from "swiper/modules";
 
+	import {useRequestStore} from "/store/request";
 	export default {
 		data(){
 			return{
 				modules: [Pagination],
 				swiper: null,
-				hackatons: [
-					{
-						shortTitle: 'Цифровой прорыв. Сезон ИИ',
-						title: 'Цифровой прорыв. Сезон искусственный интеллект',
-						case: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						final: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						award: 2,
-						diplomas: ['test.jpg', 'test.jpg', 'test.jpg']
-					},
-					{
-						shortTitle: 'Цифровой прорыв 2021',
-						title: 'Цифровой прорыв 2021',
-						case: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						final: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						award: 4,
-						diplomas: ['test.jpg', 'test.jpg', 'test.jpg']
-					},
-					{
-						shortTitle: 'Цифровой прорыв 2023',
-						title: 'Цифровой прорыв 2023',
-						case: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						final: 'Разработка системы распознавания, автоматической проверки качества документов корпоративных клиентов и формирования электронного досье',
-						award: 1,
-						diplomas: ['test.jpg', 'test.jpg', 'test.jpg']
-					},
-				],
-				current: 0
+				hackatons: [],
+				current: 0,
+				storeRequest: useRequestStore()
 			}
 		},
 		components: {
 			Swiper, SwiperSlide
+		},
+		created() {
+			this.$_index_hack_slider_loadHacks()
 		},
 		computed: {
 			showPlace(){
 				return this.hackatons[this.current].award && this.hackatons[this.current].award < 4
 			},
 			prevTitle(){
-				if(this.current === 0) return this.hackatons.at(-1).shortTitle
-				else return this.hackatons[this.current - 1].shortTitle
+				if(this.hackatons.length){
+					if(this.current === 0) return this.hackatons.at(-1).name
+					else return this.hackatons[this.current - 1].name
+				}
 			},
 			nextTitle(){
-				if(this.current === this.hackatons.length - 1) return this.hackatons[0].shortTitle
-				else return this.hackatons[this.current + 1].shortTitle
+				if(this.hackatons.length){
+					if(this.current === this.hackatons.length - 1) return this.hackatons[0].name
+					else return this.hackatons[this.current + 1].name
+				}
 			},
 
 		},
 		methods: {
+			async $_index_hack_slider_loadHacks(){
+				const res = await this.storeRequest.request('GET', 'hackatons/all/0')
+				if(res&&!res.err){
+					this.hackatons = res.hacks
+				}
+			},
 			$_index_hack_slider_setSwiper(swiper){
 				this.swiper = swiper
 			},
@@ -298,7 +288,11 @@
 				text-align: center;
 				padding: 30px 0 47px;
 				overflow: hidden;
+				display: grid;
 				img{
+					display: block;
+					position: relative;
+					margin: auto;
 					max-width: 261px;
 					border-radius: $radius-small;
 				}

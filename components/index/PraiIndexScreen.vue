@@ -1,186 +1,272 @@
 <template lang="pug">
 .main-screen
-	canvas#canvasGradient
-	canvas#canvasGrid
 	.container
-		.main-screen-content
-			h1.title Инновационные нейросети,
-				br
-				| веб и мобильные приложения
+		.main-screen-info
+			h1.title Инновационные
+				span.blue нейросети
+				| ,
+				span.blue веб
+				| и
+				span.blue мобильные
+				| приложения
 			.subtitle Более 12 лет создаем будущее технологий вместе!
-			PraiUiButtons.mx-auto(text="Рассчитать стоимость")
-		.main-screen-icons
-			PariScreenCardsGraphic.cardAnimate
-			PariScreenCardsMsg.cardAnimate
-			PariScreenCardsLoad.cardAnimate
-			PariScreenCardsStatistic.cardAnimate
+			PraiUiButtons(text="Рассчитать стоимость" @click="$_index_screen_openModal")
+			.info
+				.item
+					.image
+						img(src="/img/fire-blue.svg")
+						| {{storeSite.count_hack}}
+					.desc {{$_index_screen_Intl('award', storeSite.count_hack)}}
+						br
+						| в хакатонах по AI и ML
+				.item
+					.image
+						img(src="/img/rocket.svg")
+						| {{storeSite.count_case}}
+					.desc(v-html="$_index_screen_Intl('project', storeSite.count_case)" )
+		.main-screen-slider(v-show="swiperRef" )
+			swiper.item-swiper(
+				:spaceBetween="storeUtils.getWidth > 768 ? 50 : 20"
+				:slidesPerView="countPerView"
+				:autoplay="{ delay: 3500, disableOnInteraction: false }"
+				loop
+				:height="storeUtils.getWidth > 768 ? 485 : null"
+				centered-slides
+				:modules="modules"
+				:direction="storeUtils.getWidth > 768 ? 'vertical' : 'horizontal'"
+				class="step-swiper"
+				@swiper="$_index_screen_getSwiperRef")
+				swiper-slide.item-swiper-slide(v-for="item in list" :title="item")
+					.circle
+					.card {{item}}
+	img.pattern(src="/img/index/pattern-index.svg")
 </template>
 
 <script>
-	import PariScreenCardsGraphic from "/components/index/cards/PariScreenCardsGraphic.vue";
-	import PariScreenCardsLoad from "/components/index/cards/PariScreenCardsLoad.vue";
-	import PariScreenCardsMsg from "/components/index/cards/PariScreenCardsMsg.vue";
-	import PariScreenCardsStatistic from "/components/index/cards/PariScreenCardsStatistic.vue";
-	import PraiUiButtons from "/components/ui//PraiUiButtons.vue";
+	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
+	import {useModalStore} from "/store/modal";
+	import {useSiteStore} from "/store/site";
+	import {useUtilsStore} from "/store/utils";
+	import { Swiper, SwiperSlide } from "swiper/vue";
+	import { Autoplay } from "swiper/modules";
+
 	export default {
-		mounted() {
-			if(process.client) this.$_index_screen_createCanvas()
-			this.$_index_screen_flyCard()
+		components: { PraiUiButtons, Swiper, SwiperSlide },
+		data(){
+			return{
+				swiperRef: null,
+				modules: [Autoplay],
+				modal: useModalStore(),
+				storeSite: useSiteStore(),
+				storeUtils: useUtilsStore(),
+				list: [
+					'Разработка систем бизнес анализа',
+					'Разработка систем ИИ (AI)',
+					'Машинное обучение',
+					'Настройка сбора аналитики',
+					'Применение AI и ML решений',
+					'Реализация проекта под ключ',
+					'Размещение в магазине приложений',
+					'Интеграция приложения с CRM-системами',
+					'Построение BI отчётности',
+					'Frontend разработка',
+					'Backend разработка'
+				],
+				intl: {
+					award: {
+						"zero": "призовых мест",
+						"one": "призовое место",
+						"few": "призовых места",
+						"many": "призовых мест",
+						"other": "призовых мест"
+					},
+					project: {
+						"zero": "выполненных <br>проектов",
+						"one": "выполненный <br>проект",
+						"few": "выполненных <br>проекта",
+						"many": "выполненных <br>проектов",
+						"other": "выполненных <br>проектов"
+					}
+				},
+			}
+		},
+		computed: {
+			countPerView(){
+				const screen = this.storeUtils.getWidth
+				if(screen > 768) return 5
+				else if(screen > 660) return 3
+				else return 1.6
+			}
 		},
 		methods: {
-			$_index_screen_flyCard(){
-				if(window.innerWidth > 768){
-					const cards = document.querySelectorAll('.cardAnimate')
-					const sideX = ['-', '','-','']
-					const sideY = ['-', '', '', '-']
-					for(let i = 0; i < cards.length; i++){
-						window.addEventListener('mousemove', (e) => {
-							let x = e.clientX / window.innerWidth
-							let y = e.clientY / window.innerHeight
-
-							cards[i].style.transform = `translate(${sideX[i]}${x*20}px, ${sideY[i]}${y*20}px)`
-						})
-					}
-				}
+			$_index_screen_Intl(key, count){
+				const subKey = new Intl.PluralRules('ru').select(count)
+				return this.intl[key][subKey]
 			},
-			$_index_screen_createCanvas(){
-				// const canvas_gradient = document.getElementById('canvasGradient')
-				// const ctx_gradient = canvas_gradient.getContext('2d')
-				// canvas_gradient.width = window.innerWidth
-				// canvas_gradient.height = window.innerHeight
-				//
-				// // circle 1
-				// const gradient_1 = ctx_gradient.createLinearGradient(canvas_gradient.width / 2.6 + 210, canvas_gradient.height * 0.45 - 210, canvas_gradient.width / 2.6 - 210, canvas_gradient.height * 0.45 + 210)
-				// gradient_1.addColorStop(0, '#A5A7F9')
-				// gradient_1.addColorStop(1, '#E18CFF')
-				// ctx_gradient.fillStyle = gradient_1
-				// ctx_gradient.arc(canvas_gradient.width / 2.6, canvas_gradient.height * 0.45, 210, 0, Math.PI * 2)
-				// ctx_gradient.fill()
-				// ctx_gradient.beginPath()
-				// // circle 2
-				// const gradient_2 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.2 - 150, canvas_gradient.width / 1.8 - 150, canvas_gradient.height * 0.2 + 150)
-				// gradient_2.addColorStop(0, '#A5A7FA')
-				// gradient_2.addColorStop(1, '#E18CFF')
-				// ctx_gradient.fillStyle = gradient_2
-				// ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.2, 150, 0, Math.PI * 2)
-				// ctx_gradient.fill()
-				// ctx_gradient.beginPath()
-				// // circle 3
-				// const gradient_3 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.8 - 115, canvas_gradient.height * 0.39 + 115, canvas_gradient.width / 1.8 + 150, canvas_gradient.height * 0.39 - 115)
-				// gradient_3.addColorStop(0, '#2A50D9')
-				// gradient_3.addColorStop(1, '#E18CFF')
-				// ctx_gradient.fillStyle = gradient_3
-				// ctx_gradient.arc(canvas_gradient.width / 1.8, canvas_gradient.height * 0.39, 115, 0, Math.PI * 2)
-				// ctx_gradient.fill()
-				// ctx_gradient.beginPath()
-				// // circle 4
-				// const gradient_4 = ctx_gradient.createLinearGradient(canvas_gradient.width / 1.9 + 115, canvas_gradient.height * 0.57 - 115, canvas_gradient.width / 1.9 - 115, canvas_gradient.height * 0.57 + 115)
-				// gradient_4.addColorStop(0, '#A5A7FA')
-				// gradient_4.addColorStop(1, '#E18CFF')
-				// ctx_gradient.fillStyle = gradient_4
-				// ctx_gradient.arc(canvas_gradient.width / 1.9, canvas_gradient.height * 0.57, 115, 0, Math.PI * 2)
-				// ctx_gradient.fill()
-
-				//grid
-				const canvas_grid = document.getElementById('canvasGrid')
-				const ctx_grid = canvas_grid.getContext('2d')
-				canvas_grid.width = window.innerWidth
-				canvas_grid.height = window.innerHeight
-
-				let radGradient = null
-				if(canvas_grid.width > 768) radGradient = ctx_grid.createRadialGradient(canvas_grid.width / 2,canvas_grid.height / 2,0,canvas_grid.width / 2, canvas_grid.height / 2, canvas_grid.width / 3)
-				else radGradient = ctx_grid.createRadialGradient(canvas_grid.width / 2,canvas_grid.height / 2,0,canvas_grid.width / 2, canvas_grid.height / 2, canvas_grid.width / 1.3 )
-				radGradient.addColorStop(0, '#BCC0FF')
-				radGradient.addColorStop(0.5, '#BCC0FF')
-				radGradient.addColorStop(1, '#FFFFFF')
-				ctx_grid.fillStyle = 'transparent'
-				ctx_grid.strokeStyle = radGradient
-
-				ctx_grid.fillRect(0, 0, canvas_grid.width, canvas_grid.height)
-				ctx_grid.fill()
-
-				const sizeSquare = 50
-				const countH = Math.ceil(canvas_grid.height / sizeSquare)
-				const countW = Math.ceil(canvas_grid.width / sizeSquare)
-				for(let i = 0; i < countW; i++){
-					for(let k = 0; k < countH; k++){
-						ctx_grid.strokeRect(sizeSquare * i, sizeSquare * k, sizeSquare, sizeSquare)
-					}
-				}
+			$_index_screen_openModal(){
+				this.modal.openModalFeedback('Первый экран главной страницы')
 			},
-		},
-		components: {
-			PariScreenCardsGraphic, PariScreenCardsLoad,
-			PariScreenCardsMsg, PariScreenCardsStatistic,
-			PraiUiButtons
+			$_index_screen_getSwiperRef(swiper){
+				this.swiperRef = swiper
+			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 	.main-screen{
-		height: calc(100vh - 140px);
-		width: 100vw;
-		max-width: calc(100vw - 15px);
-		@media(max-width: 768px) {
-			min-height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100%;
+		max-width: 100%;
+		background: #F4F5F7 url("/public/img/pattert-light.png") repeat;
+		background-size: 450px;
+		@media(max-width: 768px){
 			height: fit-content;
 		}
-		canvas#canvasGradient{
-			display: block;
+		.pattern{
 			position: absolute;
 			top: 0;
-			left: 0;
-			opacity: .8;
-			filter: blur(100px);
-			max-width: calc(100vw - 15px) !important;
-			z-index: -2;
-		}
-		canvas#canvasGrid{
-			display: block;
-			position: absolute;
-			max-width: calc(100vw - 15px) !important;
-			top: 0;
-			left: 0;
-			z-index: -1;
+			right: 0;
+			height: 100%;
+			z-index: 0;
 		}
 		.container{
-			height: calc(100vh - 120px);
-			margin-top: 120px;
+			padding-top: 230px;
 			display: flex;
-			flex-direction: column;
 			align-items: center;
-			justify-content: center;
+			gap: 30px;
+			justify-content: space-between;
 			position: relative;
+			z-index: 1;
 			@media(max-width: 768px){
-				margin-top: 80px;
-				height: auto;
-			}
-		}
-		&-content{
-			.title{
-				font-size: 56px;
-				line-height: 120%;
-				font-weight: bold;
-				text-align: center;
-				@media(max-width: 920px){
-					font-size: 50px;
-				}
-				@media(max-width: 576px){
-					font-size: 18px;
+				flex-direction: column;
+				padding-top: 150px;
+				.btn-animate{
+					margin: 0 auto;
 				}
 			}
-			.subtitle{
-				font-size: 14px;
-				color: $light-secondary-text;
-				text-align: center;
-				margin: 20px 0 36px;
+			.main-screen-info{
+				max-width: 65%;
+				@media(max-width: 931px){
+					max-width: 55%;
+				}
+				@media(max-width: 768px){
+					max-width: 100%;
+				}
+				.title{
+					font-size: pxToRem(40);
+					line-height: 120%;
+					font-weight: bold;
+					margin-top: 0;
+					margin-bottom: 30px;
+					font-family: 'Grotesk';
+					display: flex;
+					flex-wrap: wrap;
+					column-gap: 5px;
+					.blue{
+						color: $blue;
+					}
+					@media(max-width: 768px){
+						max-width: 100%;
+						font-size: pxToRem(30);
+						justify-content: center;
+					}
+				}
+				.subtitle{
+					font-size: pxToRem(17);
+					color: $light-secondary-text;
+					margin: 20px 0 50px;
+					@media(max-width: 768px){
+						text-align: center;
+					}
+				}
+				.info{
+					display: flex;
+					column-gap: 20px;
+					margin-top: 40px;
+					@media(max-width: 768px){
+						justify-content: center;
+						column-gap: 40px;
+						.image{
+							justify-content: center;
+						}
+						.desc{
+							text-align: center;
+						}
+					}
+					.item{
+						.image{
+							display: flex;
+							column-gap: 15px;
+							align-items: center;
+							font-size: pxToRem(37);
+							font-weight: 600;
+							color: $light-secondary-text;
+							margin-bottom: 5px;
+						}
+						.desc{
+							color: $light-secondary-text;
+						}
+					}
+				}
 			}
-		}
-		&-icons{
-			@media(max-width: 768px){
-				width: calc(100% - 20px);
-				padding-bottom: 30px;
+			.main-screen-slider{
+				overflow: hidden;
+				max-height: 485px;
+				position: relative;
+				height: 100%;
+				mask-image: linear-gradient(
+						to bottom,
+						hsl(0 0% 0% / 0),
+						hsl(0 0% 0% / 1) 50%,
+						hsl(0 0% 0% / 1) 50%,
+						hsl(0 0% 0% / 0)
+				);
+				@media(max-width: 768px){
+					margin-top: 40px;
+					mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #fff 33.56%,#fff 66.56%, rgba(255, 255, 255, 0) 100%)
+				}
+
+				.item-swiper{
+					@media(max-width: 768px){
+						max-width: calc(100vw - 10px);
+					}
+					&-slide{
+						display: flex;
+						align-items: center;
+						column-gap: 40px;
+						height: 100%;
+						@media(max-width: 768px) {
+							justify-content: center;
+						}
+						.circle{
+							width: 15px;
+							height: 15px;
+							min-width: 15px;
+							border-radius: 50%;
+							background: $light-border;
+							transition: $anim-long;
+							@media(max-width: 768px){
+								display: none;
+							}
+						}
+						.card{
+							padding: 20px 25px;
+							border-radius: 15px;
+							background: $white;
+							font-weight: 700;
+							box-shadow: 0 4px 20px 0 rgba(69, 93, 178, .12);
+							font-size: pxToRem(14);
+
+						}
+					}
+					&-slide.swiper-slide-active .circle{
+						background: $blue;
+					}
+				}
 			}
 		}
 	}

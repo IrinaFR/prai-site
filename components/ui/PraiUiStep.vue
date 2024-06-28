@@ -1,5 +1,5 @@
 <template lang="pug">
-.step-work(v-if="$store.getters.getWidth>768")
+.step-work(v-if="store.getWidth>768")
 	.container
 		.title-block.center
 			.subtitle-card.uppercase(:class="$props.class") Agile
@@ -31,7 +31,7 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 	import { gsap } from "gsap/all";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import PraiUiStepMobile from './PraiUiStepMobile.vue'
-	import {mapState} from "vuex";
+	import {useUtilsStore} from "/store/utils";
 	export default {
 		components: {Swiper, SwiperSlide, PraiUiStepMobile},
 		props: {
@@ -43,14 +43,12 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 		},
 		data(){
 			return{
+				store: useUtilsStore(),
 				swiperRef: null,
-				count: 0
+				count: 0,
 			}
 		},
 		computed: {
-			...mapState({
-				getWidth: state => state.width
-			}),
 			progress(){
 				if(this.swiperRef) {
 					return Math.ceil(this.swiperRef.activeIndex * 100 / (this.steps.length - 1))

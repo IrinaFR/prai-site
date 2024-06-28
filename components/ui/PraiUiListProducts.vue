@@ -7,7 +7,7 @@
 		.list-products
 			.list-products-item(v-for="product in products")
 				.head
-					PraiUiIcon(:color="product.color" :icon="'about/' + product.icon")
+					PraiUiIcon(:color="product.color" :icon="'products/' + product.icon")
 					| {{product.title}}
 				.desc {{product.desc}}
 </template>
@@ -40,7 +40,6 @@
 <style lang="scss">
 	.list-products-bg{
 		padding: 50px 0;
-		background: radial-gradient(229.1% 141.42% at 100% 100%, rgba(220, 69, 187, 0.47) 0%, rgba(150, 136, 236, 0.09) 38.54%, rgba(255, 255, 255, 0.00) 100%);
 	}
 	.list-products{
 		display: grid;
@@ -66,16 +65,12 @@
 			}
 		}
 		@media(max-width: 860px){
-			grid-template-columns: repeat(5, 352px);
-			overflow-x: scroll;
+			display: flex;
+			overflow-x: auto;
 			padding-bottom: 20px;
-			mask-image: linear-gradient(
-					var(--mask-direction, to right),
-					hsl(0 0% 0% / 1),
-					hsl(0 0% 0% / 1) 20%,
-					hsl(0 0% 0% / 1) 80%,
-					hsl(0 0% 0% / 0)
-			);
+			&-item{
+				min-width: 270px;
+			}
 			&::-webkit-scrollbar-track{
 				background: $light-border;
 			}
@@ -86,6 +81,8 @@
 			.head{
 				font-size: 14px;
 				flex-direction: row;
+				display: flex;
+				align-items: center;
 			}
 			.desc{
 				font-size: 12px;

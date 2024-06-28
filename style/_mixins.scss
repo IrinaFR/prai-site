@@ -1,0 +1,51 @@
+@use "sass:color";
+
+@function pxToRem($value) {
+	$remValue: calc($value / 16) + rem;
+	@return $remValue;
+}
+
+@mixin htmlDescription{
+	line-height: 140%;
+	& ul{
+		padding-left: 0 !important;
+	}
+	& p, & h1, & h2, & h3, & h4, & h5, & h6 span{
+		font-size: 16px !important;
+	}
+	& img{
+		border-radius: $radius-small;
+		max-width: 100%;
+		width: 100%;
+	}
+	p:empty, span:empty, h1:empty, h2:empty, h3:empty, h4:empty, h5:empty, h6:empty{
+		display: none !important;
+	}
+}
+@mixin htmlDescriptionWhite{
+	line-height: 140%;
+	ul{
+		padding-left: 0 !important;
+	}
+	p, h1, h2, h3, h4, h5, h6, span{
+		font-size: 16px !important;
+		color: $white !important;
+	}
+	img{
+		border-radius: $radius-small;
+		max-width: 100%;
+		width: 100%;
+	}
+}
+@function getColorTransparent($color, $alpha-value) {
+	@return color.change($color, $alpha: $alpha-value);
+}
+
+@mixin setFixedStroke($count){
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: $count;
+	display: -webkit-box;
+	word-break: break-all;
+}

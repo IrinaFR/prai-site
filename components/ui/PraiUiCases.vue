@@ -8,49 +8,52 @@
 				.title-block.white
 					.subtitle-card.uppercase(:class="$props.class") Кейсы
 					h2.title Выполненные проекты
-				PraiUiCardCase
-				.card-feedback(v-if="$store.getters.getWidth > 600")
+				PraiUiCardCase(:data="storeSite.cases[0]" v-if="storeSite.cases.length" )
+				.card-feedback(v-if="store.getWidth > 600")
 					.title Обсудить проект или пригласить в тендер
 					.description Оставьте номер телефона и мы вам перезвоним
-					form
-						input(placeholder="+7 999 000-00-00")
-						PraiUiButtons(text="Связаться с нами" :class="$props.class + ' btn-full'")
-						label.loadFile(for="feedbackPinFile")
-							input.d-none#feedbackPinFile(type="file")
-							img(src="/img/form/document.svg")
-							| Прикрепить файл
-						.tip(:class="$props.class") Отправляя форму, вы соглашаетесь с
-							a(href="/") политикой конфинденциальности
+					PraiFormFeedback.full(id="casePageFeedback" full-btn text="Связаться с нами" :title="'Блок кейсов на главной странице - ' + $route.fullPath" :class="$props.class")
+					//label.loadFile(for="feedbackPinFile")
+					//	input.d-none#feedbackPinFile(type="file")
+					//	img(src="/img/form/document.svg")
+					//	| Прикрепить файл
 			.col-cases
-				PraiUiCardCase
-				PraiUiCardCase
+				PraiUiCardCase(:data="storeSite.cases[1]" v-if="storeSite.cases.length")
+				PraiUiCardCase(:data="storeSite.cases[2]" v-if="storeSite.cases.length")
 				.card-feedback.mob
 					.title Обсудить проект или пригласить в тендер
 					.description Оставьте номер телефона и мы вам перезвоним
-					form
-						input(placeholder="+7 999 000-00-00")
-						PraiUiButtons(text="Связаться с нами" :class="$props.class + ' btn-full'")
-						label.loadFile(for="feedbackPinFile")
-							input.d-none#feedbackPinFile(type="file")
-							img(src="/img/form/document.svg")
-							| Прикрепить файл
-						.tip(:class="$props.class") Отправляя форму, вы соглашаетесь с
-							a(href="/") политикой конфинденциальности
-		PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" :class="$props.class")
+					PraiFormFeedback.full(id="casePageFeedbackMob" full-btn :title="'Блок кейсов на странице - ' + $route.fullPath" text="Связаться с нами" :class="$props.class")
+						//label.loadFile(for="feedbackPinFile")
+						//	input.d-none#feedbackPinFile(type="file")
+						//	img(src="/img/form/document.svg")
+						//	| Прикрепить файл
+		PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" :class="$props.class" @click="$router.push('/cases')")
 
 </template>
 
 <script>
 	import PraiUiCardCase from '/components/ui/PraiUiCardCase.vue'
 	import PraiUiButtons from '/components/ui/PraiUiButtons.vue'
+	import PraiFormFeedback from "/components/feedback/PraiFormFeedback.vue";
+	import {useUtilsStore} from "/store/utils";
+	import {useSiteStore} from "/store/site";
+	import {useModalStore} from "/store/modal";
 	export default {
-		components: { PraiUiCardCase, PraiUiButtons },
+		components: { PraiUiCardCase, PraiUiButtons, PraiFormFeedback },
 		props: {
 			class: {
 				type: String,
 				default: 'blue'
 			}
-		}
+		},
+		data(){
+			return{
+				store: useUtilsStore(),
+				storeSite: useSiteStore(),
+				storeModal: useModalStore()
+			}
+		},
 	}
 </script>
 
@@ -129,14 +132,8 @@
 			font-size: 14px;
 			color: $dark-secondary-text;
 		}
-		form {
-			input{
-				width: calc(100% - 32px);
-			}
-			.btn-full{
-				width: 100%;
-				margin: 16px 0;
-			}
+		.loadFile{
+			margin-top: 16px;
 		}
 	}
 </style>

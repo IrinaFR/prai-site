@@ -3,38 +3,28 @@
 	.news-list-header
 		.title-block
 			.subtitle-card.blue.uppercase Блог
-			h2.title Новости от команды
-		nuxt-link.btn-outline.desktop(to="/") Читать все
+			h2.title Блог команды
+		nuxt-link.btn-outline.desktop(to="/blog") Читать все
 			img(src="/img/arrow.svg")
 	.news-list-scroll.hide-scroll
-		nuxt-link.news-list-scroll-card(to="/")
-			img.image(src="/img/test.png")
-			.info
-				.title
-					h2 Преимущества удаленной работы
-					.size-14.light-grey 20 августа 2023
-				button.btn-outline Читать
-					img(src="/img/arrow.svg")
-		nuxt-link.news-list-scroll-card(to="/")
-			img.image(src="/img/test.png")
-			.info
-				.title
-					h2 Преимущества удаленной работы
-					.size-14.light-grey 20 августа 2023
-				button.btn-outline Читать
-					img(src="/img/arrow.svg")
-		nuxt-link.news-list-scroll-card(to="/")
-			img.image(src="/img/test.png")
-			.info
-				.title
-					h2 Преимущества удаленной работы
-					.size-14.light-grey 20 августа 2023
-				button.btn-outline Читать
-					img(src="/img/arrow.svg")
-	nuxt-link.btn-outline.mobile.mx-auto.mt-24(to="/") Читать все
+		PraiNewsCard(v-for="news in storeSite.news" :news="news")
+	nuxt-link.btn-outline.mobile.mx-auto.mt-24(to="/blog") Читать все
 		img(src="/img/arrow.svg")
 
 </template>
+
+<script>
+	import PraiNewsCard from "/components/news/PraiNewsCard.vue";
+	import {useSiteStore} from "/store/site";
+	export default {
+		data(){
+			return{
+				storeSite: useSiteStore()
+			}
+		},
+		components: {PraiNewsCard}
+	}
+</script>
 
 <style lang="scss">
 	.news-list-header{
@@ -43,12 +33,20 @@
 		align-items: center;
 		gap: 16px;
 		margin-top: 50px;
+		@media(max-width: 768px){
+			.title{
+				font-size: 28px;
+			}
+		}
 	}
 	.news-list-scroll{
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		grid-column-gap: 12px;
 		overflow-x: auto;
+		@media(max-width: 768px) {
+			grid-template-columns: repeat(3, 280px);
+		}
 		&-card{
 			display: block;
 			height: 400px;

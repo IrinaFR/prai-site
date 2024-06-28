@@ -1,9 +1,25 @@
 <template lang="pug">
-nuxt-link.info-block(to="/")
+nuxt-link.info-block(:to="link + item.short_name")
 	.image
-		img(src="/img/cases/code.svg")
+		img(:src="`${storeRequest.config.app.apiServerImg}photo/${link_img}/${item.img}`")
 	.info
-		.title Корпоративный сайт застройщика
+		.title {{item.name}}
 		.link Смотреть
 			img(src="/img/arrow.svg")
 </template>
+
+<script>
+	import {useRequestStore} from "/store/request";
+	export default {
+		props: {
+			link: String,
+			link_img: String,
+			item: Object
+		},
+		data(){
+			return{
+				storeRequest: useRequestStore()
+			}
+		}
+	}
+</script>

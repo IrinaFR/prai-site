@@ -6,13 +6,15 @@
 			.footer-links-list
 				.footer-links-list-main
 					nuxt-link.title(to="/") Главная
-					nuxt-link.title(to="/") Блог
-					nuxt-link.title(to="/") Контакты
-					nuxt-link.title(to="/") Вакансии
+					nuxt-link.title(to="/blog") Блог
+					nuxt-link.title(to="/contacts") О нас
+					//nuxt-link.title(to="/") Вакансии
 				.footer-links-list-services
 					.title Услуги
 					.list
-						nuxt-link(:to="services.link" v-for="services in $store.getters.getAllServices") {{services.title}}
+						span(v-for="services in storeServices.getAllServices")
+							nuxt-link(:to="services.link" v-if="services.link" ) {{services.title}}
+							span(@click="$_footer_openModal(services.title)" v-else) {{services.title}}
 		hr
 		.footer-info
 			.footer-info-item
@@ -27,8 +29,26 @@
 		hr
 		.footer-copyright
 			.size-14.dark-grey © PRAI {{new Date().getFullYear()}}. Все права защищены
-			nuxt-link.size-14.dark-grey(to="/") Политика конфиденциальности
+			nuxt-link.size-14.dark-grey(href="/politika") Политика конфиденциальности
 </template>
+
+<script>
+	import {useServicesStore} from "/store/services";
+	import {useModalStore} from "/store/modal";
+	export default {
+		data(){
+			return{
+				storeServices: useServicesStore(),
+				modal: useModalStore()
+			}
+		},
+		methods: {
+			$_footer_openModal(name){
+				this.modal.openModalFeedback('Футер - ' + name)
+			}
+		}
+	}
+</script>
 
 <style scoped lang="scss">
 	.footer{
@@ -36,6 +56,8 @@
 		width: 100%;
 		padding: 50px 0 30px;
 		color: $white;
+		position: relative;
+		z-index: 10;
 		&-links{
 			display: flex;
 			align-items: start;

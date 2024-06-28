@@ -53,6 +53,10 @@
 .mb-24{
 	margin-bottom: 24px;
 }
+.my-25{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
 
 .hide-scroll {
 	-ms-overflow-style: none;
@@ -71,5 +75,30 @@
 	}
 	.mobile{
 		display: flex !important;
+	}
+}
+
+.htmlDescription{
+	line-height: 140%;
+	& ul{
+		padding-left: 15px !important;
+	}
+	& p, & h1, & h2, & h3, & h4, & h5, & h6 span{
+		font-size: 16px !important;
+	}
+	& img{
+		border-radius: $radius-small;
+		max-width: 100%;
+		width: 100%;
+	}
+	&.black{
+		p, & h1, & h2, & h3, & h4, & h5, & h6 span{
+			color: $text-black !important;
+		}
+	}
+	&.white{
+		p, & h1, & h2, & h3, & h4, & h5, & h6 span{
+			color: $white !important;
+		}
 	}
 }

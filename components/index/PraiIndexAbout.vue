@@ -64,9 +64,9 @@
 							stop( offset="0.59375" stop-color="#211F27")
 								animate(attributeName="offset" values="0;1;0" dur="4s" repeatCount="indefinite")
 							stop( offset="0.6875" stop-color="#FF0000")
-								animate(attributeName="offset" values="0;1;0" dur="4s" repeatCount="indefinite")
-							stop( offset="0.744792" stop-color="#211F27")
 								animate(attributeName="offset" values="0.1;1.1;0.1" dur="4s" repeatCount="indefinite")
+							stop( offset="0.744792" stop-color="#211F27")
+								animate(attributeName="offset" values="1;1;1" dur="4s" repeatCount="indefinite")
 				svg.line.line-3(xmlns="http://www.w3.org/2000/svg" width="6" height="115" viewBox="0 0 6 115" fill="none")
 					path(d="M0.333333 3C0.333333 4.47276 1.52724 5.66667 3 5.66667C4.47276 5.66667 5.66667 4.47276 5.66667 3C5.66667 1.52724 4.47276 0.333333 3 0.333333C1.52724 0.333333 0.333333 1.52724 0.333333 3ZM0.333333 111.5C0.333333 112.973 1.52724 114.167 3 114.167C4.47276 114.167 5.66667 112.973 5.66667 111.5C5.66667 110.027 4.47276 108.833 3 108.833C1.52724 108.833 0.333333 110.027 0.333333 111.5ZM2.5 3V111.5H3.5V3H2.5Z" fill="url(#paint0_linear_1_1010)")
 					defs
@@ -77,19 +77,22 @@
 								animate(attributeName="offset" values="0.1;1.1" dur="1.5s" repeatCount="indefinite")
 							stop(offset="0.604167" stop-color="#211F27")
 								animate(attributeName="offset" values="0.2;1.2" dur="1.5s" repeatCount="indefinite")
-		PraiUiButtons(text="Связаться с нами")
+		PraiUiButtons(text="Связаться с нами" @click="storeModal.openModal('modalFeedback', 'Блок о нас на главной')")
 		.about-title
 			.status
 				img(src="/img/about/it.svg")
 				| Компания входит в реестр IT-компаний
-			.resident Резиденты
-				img(src="/img/about/skolkovo.svg")
+			.resident Входим в ассоциацию
+				a(href="https://russoft.org/members/?filter=view:main;title:45086;sortingfilter:name;sortingbyfilter:asc;memtype:0;lang:ru;" target="_blank")
+					img(src="/img/about/russoft.svg")
 
 </template>
 
 <script setup>
 	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
 	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
+	import {useModalStore} from "/store/modal";
+	const storeModal = useModalStore()
 </script>
 
 <style scoped lang="scss">

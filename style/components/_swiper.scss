@@ -21,6 +21,7 @@
 		z-index: 1;
 		cursor: pointer;
 		transition: $anim-small;
+		user-select: none;
 		&:hover{
 			background: rgba(0,114,250, .5);
 		}

@@ -10,5 +10,7 @@
 		border-top-left-radius: 24px;
 		width: 100%;
 		height: fit-content;
+		position: relative;
+		z-index: 10;
 	}
 </style>

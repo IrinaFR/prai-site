@@ -19,10 +19,8 @@
 			id: String
 		},
 		methods: {
-			$_header_mobile_offcanvas_toggle(emit){
-				this.$nextTick(() => {
-					this.$refs['offcanvasMobile' + this.id].classList.toggle('show')
-				})
+			async $_header_mobile_offcanvas_toggle(emit){
+				await this.$refs['offcanvasMobile' + this.id].classList.toggle('show')
 				if(emit) this.$emit(emit)
 			}
 		}

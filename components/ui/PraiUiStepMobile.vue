@@ -52,8 +52,8 @@
 				scroll-snap-align: start;
 				scroll-snap-stop: always;
 				.item{
-					max-width: 290px;
-					min-width: 290px;
+					max-width: 250px;
+					min-width: 250px;
 					display: flex;
 					align-items: center;
 					column-gap: 8px;

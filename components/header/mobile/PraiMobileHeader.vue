@@ -19,10 +19,10 @@ header.header-mobile(:class="{opened:openMenu}")
 	.header-mobile-sidebar
 		.links
 			nuxt-link(to="/") Главная
+			//hr
+			//nuxt-link(to="/") О нас
 			hr
-			nuxt-link(to="/") О нас
-			hr
-			nuxt-link(to="/") Кейсы
+			nuxt-link(to="/cases") Кейсы
 			hr
 			span(@click="showServices=true") Услуги
 				img(src="/img/arrow.svg")
@@ -30,23 +30,23 @@ header.header-mobile(:class="{opened:openMenu}")
 			span(@click="showProducts=true") Наши продукты
 				img(src="/img/arrow.svg")
 			hr
-			nuxt-link(to="/") Блог
+			nuxt-link(to="/blog") Блог
 			hr
-			nuxt-link(to="/") Контакты
+			nuxt-link(to="/contacts") О нас
 		.contacts
 			button.btn Обсудить проект
 			.contacts-links
 				img(src="/img/contacts/vk.svg" alt="Вконтакте")
 				img(src="/img/contacts/behance.svg" alt="behance")
 				img(src="/img/contacts/telegram.svg" alt="telegram")
-PraiHeaderMobileOffcanvas(v-if="showServices" @close="showServices=false, openMenu=false" @back="showServices=false")
-	nuxt-link.list-mobile-services-item(:to="link.link" v-for="link in $store.getters.getMainServices")
+PraiHeaderMobileOffcanvas(v-if="showServices" @close="showServices=false, openMenu=false" @back="showServices=false" ref="offcanvasServices")
+	nuxt-link.list-mobile-services-item(:to="link.link" v-for="link in store.getMainServices")
 		.title {{link.title}}
 		.description {{link.desc}}
-	.list-mobile-services-item(v-for="link in $store.getters.getOtherServices")
+	.list-mobile-services-item(v-for="link in store.getOtherServices" @click="$_mobile_header_openModal(link.title)")
 		.title {{link.title}}
-PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMenu=false" @back="showProducts=false")
-	nuxt-link.list-mobile-services-item(to="/" v-for="link in $store.getters.getOurProducts")
+PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMenu=false" @back="showProducts=false" ref="offcanvasProducts")
+	nuxt-link.list-mobile-services-item(to="/" v-for="link in store.getOurProducts")
 		.title {{link.title}}
 		.description {{link.desc}}
 
@@ -54,6 +54,8 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 
 <script>
 	import PraiHeaderMobileOffcanvas from "/components/header/mobile/PraiHeaderMobileOffcanvas.vue";
+	import {useServicesStore} from "/store/services";
+	import {useModalStore} from "/store/modal";
 	export default {
 		components: { PraiHeaderMobileOffcanvas },
 		data(){
@@ -65,8 +67,22 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 				openMenu: false,
 				showServices: false,
 				showProducts: false,
+				store: useServicesStore(),
+				storeModal: useModalStore()
 			}
 		},
+		watch: {
+			'$route.path'(){
+				if(this.showServices) this.$refs.offcanvasServices.$_header_mobile_offcanvas_toggle('close')
+				if(this.showProducts) this.$refs.offcanvasProducts.$_header_mobile_offcanvas_toggle('close')
+			}
+		},
+		methods: {
+			$_mobile_header_openModal(link){
+				this.$refs.offcanvasServices.$_header_mobile_offcanvas_toggle('close')
+				this.storeModal.openModalFeedback('Услуга в меню - ' + link)
+			}
+		}
 	}
 </script>
 
@@ -85,9 +101,51 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 		border-bottom-left-radius: $radius-small;
 		border-bottom-right-radius: $radius-small;
 		overflow: hidden;
-		transition: $anim-long;
+		transition: cubic-bezier(0.77, 0, 0.175, 1) 0.6s;
+		&::before,
+		&::after{
+			content: "";
+			position: fixed;
+			width: 100vw;
+			height: 100vh;
+			top: 0;
+			right: 0;
+			background: rgba(0, 113, 250, .2);
+			border-bottom-left-radius: 200%;
+			z-index: -1;
+			-webkit-transition: -webkit-transform cubic-bezier(0.77, 0, 0.175, 1) 0.6s, border-radius linear 0.8s;
+			transition: -webkit-transform cubic-bezier(0.77, 0, 0.175, 1) 0.6s, border-radius linear 0.8s;
+			transition: transform cubic-bezier(0.77, 0, 0.175, 1) 0.6s, border-radius linear 0.8s;
+			transition: transform cubic-bezier(0.77, 0, 0.175, 1) 0.6s, -webkit-transform cubic-bezier(0.77, 0, 0.175, 1) 0.6s, border-radius linear 0.8s;
+			-webkit-transform: translateX(100%) translateY(-100%);
+			transform: translateX(100%) translateY(-100%);
+		}
+		&::after{
+			background: #fff;
+			-webkit-transition-delay: 0s;
+			transition-delay: 0s;
+		}
+		&::before{
+			-webkit-transition-delay: .2s;
+			transition-delay: .2s;
+		}
 		&.opened{
 			height: 100vh;
+			background: rgba(0, 113, 250, .6);
+			&::after,
+			&::before{
+				-webkit-transform: translateX(0%) translateY(0%);
+				transform: translateX(0%) translateY(0%);
+				border-radius: 0;
+			}
+			&::after{
+				-webkit-transition-delay: .1s;
+				transition-delay: .1s;
+			}
+			&::before{
+				-webkit-transition-delay: 0s;
+				transition-delay: 0s;
+			}
 			.header-mobile-sidebar{
 				opacity: 1;
 			}

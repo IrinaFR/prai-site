@@ -1,20 +1,38 @@
 <template lang="pug">
-nuxt-link.card-case(to="/")
+nuxt-link.card-case(:to="`/cases/${data?.short_name}`")
 	.card-case-image
-		img(src="/img/test.png")
+		img(:src="`${storeRequest.config.app.apiServerImg}photo/case/${data?.img}`")
 	.card-case-info
-		.title Корпоративный сайт для застройщика с админ-панелью и интеграцией
-		.list-services
-			.item
+		.title(:style="`--serviceColor:${serviceColor}`") {{data?.name}}
+		.list-services(v-if="data" )
+			.item(v-for="service in data.cat" :style="`--serviceColor:${storeService.getColorServiceById(service)}`")
 				span.bracket [
-				|  Разработка веб-приложений
+				|  {{storeService.getNameServiceById(service)}}
 				span.bracket  ]
 		.list-finals
-			.subtitle-card.light-pink Корпоративный сайт
-			.subtitle-card.light-pink Админ-панель
-			.subtitle-card.light-pink Интеграция
-			.subtitle-card.light-pink SEO
+			.subtitle-card(v-for="tag in (data?.tags ? data.tags : data?.data.tags)" :style="`--brandColor:${serviceColor};--brandColorOpacity:${serviceColor}33`") {{tag}}
 </template>
+
+<script>
+	import {useRequestStore} from "/store/request";
+	import {useServicesStore} from "/store/services";
+	export default {
+		props: {
+			data: Object
+		},
+		data(){
+			return{
+				storeRequest: useRequestStore(),
+				storeService: useServicesStore()
+			}
+		},
+		computed: {
+			serviceColor(){
+				if(this.data?.cat.length) return this.storeService.getColorServiceById(this.data.cat[0])
+			}
+		}
+	}
+</script>
 
 <style lang="scss">
 	.card-case{
@@ -24,20 +42,18 @@ nuxt-link.card-case(to="/")
 		border: solid 1px $dark-border;
 		max-width: 534px;
 		width: 100%;
-		min-height: 504px;
+		min-height: fit-content;
 		overflow: hidden;
 		position: relative;
 		z-index: 1;
 		flex-grow: 1;
 		&:hover{
 			.title{
-				color: $blue;
+				color: var(--serviceColor, $blue);
 			}
 		}
 		@media(max-width: 768px){
 			max-width: 100%;
-		}
-		@media(max-width: 600px) {
 			min-height: fit-content;
 		}
 		&-image{
@@ -82,6 +98,9 @@ nuxt-link.card-case(to="/")
 				margin-bottom: 16px;
 				line-height: 140%;
 				transition: $anim-small;
+				@media(max-width: 768px){
+					font-size: pxToRem(16);
+				}
 			}
 			.list-services{
 				display: flex;
@@ -94,8 +113,7 @@ nuxt-link.card-case(to="/")
 					color: $dark-secondary-text;
 					span.bracket{
 						font-weight: 700;
-						// TODO Добавить цвет
-						color: $light-pink;
+						color: var(--serviceColor, #fff);
 					}
 				}
 			}
