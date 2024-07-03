@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-	import PraiFormFeedback from "/components/feedback/PraiFormFeedback.vue";
-	import PraiFeedbackSocial from "/components/feedback/PraiFeedbackSocial.vue";
+	const PraiFormFeedback = defineAsyncComponent(() => import('/components/feedback/PraiFormFeedback.vue'))
+	const PraiFeedbackSocial = defineAsyncComponent(() => import('/components/feedback/PraiFeedbackSocial.vue'))
 	import {useModalStore} from "/store/modal";
 	import {defineProps} from "vue";
 

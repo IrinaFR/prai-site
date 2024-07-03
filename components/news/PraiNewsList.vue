@@ -14,7 +14,6 @@
 </template>
 
 <script>
-	import PraiNewsCard from "/components/news/PraiNewsCard.vue";
 	import {useSiteStore} from "/store/site";
 	export default {
 		data(){
@@ -22,7 +21,9 @@
 				storeSite: useSiteStore()
 			}
 		},
-		components: {PraiNewsCard}
+		components: {
+			PraiNewsCard: defineAsyncComponent(() => import('/components/news/PraiNewsCard.vue'))
+		}
 	}
 </script>
 

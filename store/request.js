@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import {useRuntimeConfig} from "nuxt/app";
 import axios from "axios";
 
 export const useRequestStore = defineStore('request', {

@@ -33,14 +33,15 @@
 </template>
 
 <script>
-	import PraiUiCardCase from '/components/ui/PraiUiCardCase.vue'
-	import PraiUiButtons from '/components/ui/PraiUiButtons.vue'
-	import PraiFormFeedback from "/components/feedback/PraiFormFeedback.vue";
 	import {useUtilsStore} from "/store/utils";
 	import {useSiteStore} from "/store/site";
 	import {useModalStore} from "/store/modal";
 	export default {
-		components: { PraiUiCardCase, PraiUiButtons, PraiFormFeedback },
+		components: {
+			PraiUiCardCase: defineAsyncComponent(() => import('/components/ui/PraiUiCardCase.vue')),
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue')),
+			PraiFormFeedback: defineAsyncComponent(() => import('/components/feedback/PraiFormFeedback.vue'))
+		},
 		props: {
 			class: {
 				type: String,
@@ -67,6 +68,7 @@
 		}
 		.col-cases{
 			display: flex;
+			flex: 0 50%;
 			flex-direction: column;
 			row-gap: 16px;
 		}

@@ -5,12 +5,13 @@
 	background: var(--bgHeader);
 	border-radius: $radius-big;
 	width: calc(100% - 84px);
-	max-width: calc(1080px - 64px);
+	max-width: calc(1080px - 84px);
 	position: fixed;
 	z-index: 100;
 	top: 30px;
 	margin: auto;
-	padding: 0 24px 0 40px;
+	//padding: 0 24px 0 40px;
+	padding: 0 40px;
 	backdrop-filter: blur(4px);
 	transition: $anim-long;
 	&.open{
@@ -104,6 +105,9 @@
 						}
 						.links-list__item:hover{
 							color: $blue;
+						}
+						.links-list__item .prai-icon.custom-shadow{
+							border: solid 1px $light-border;
 						}
 						.title{
 							font-size: 14px;

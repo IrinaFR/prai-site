@@ -1,8 +1,15 @@
 <template lang="pug">
-.root-contacts(ref="root"  :key="$route.fullPath")
+.root-contacts(ref="root" :key="$route.fullPath")
 	.container
 		.root-contacts-content
-			//.root-contacts-content-map
+			.root-contacts-content-map
+				YandexMap(
+					v-model="map"
+					:settings="settings")
+					YandexMapDefaultSchemeLayer
+					YandexMapDefaultFeaturesLayer
+					YandexMapMarker(:settings="{coordinates:settings.location.center}")
+						img.custom-marker(src="/img/mapPrai.svg")
 			.root-contacts-content-info
 				.info-main
 					.info-main-item
@@ -36,14 +43,33 @@
 
 <script>
 	import {useHeaderStore} from "/store/header";
-	import PraiFeedbackSocial from "/components/feedback/PraiFeedbackSocial.vue";
+	import {YandexMap, YandexMapDefaultSchemeLayer, YandexMapDefaultFeaturesLayer, YandexMapMarker} from "vue-yandex-maps";
 	export default {
+		setup(){
+			const description = 'Контактная информация о компании | ПРАЙ'
+			useHead({
+				title: 'Контакты',
+				meta: [
+					{ name: 'description', content: description },
+					{ property: 'og:title', content: 'Контакты | ПРАЙ' },
+					{ property: 'og:description', content: description },
+				]
+			})
+		},
 		data(){
 			return{
-				storeHeader: useHeaderStore()
+				storeHeader: useHeaderStore(),
+				settings: {
+					location: {
+						lang: 'ru_RU',
+						center: [38.127966553800874, 45.25506010642486],
+						zoom: 16,
+					},
+					theme: 'dark'
+				},
+				map: null
 			}
 		},
-
 		mounted(){
 			setTimeout(() => {
 				this.$refs.root.classList.add('opened')
@@ -57,7 +83,8 @@
 			})
 		},
 		components: {
-			PraiFeedbackSocial
+			PraiFeedbackSocial: defineAsyncComponent(() => import('/components/feedback/PraiFeedbackSocial.vue')),
+			YandexMap, YandexMapDefaultSchemeLayer, YandexMapDefaultFeaturesLayer, YandexMapMarker
 		}
 	}
 </script>
@@ -129,6 +156,17 @@
 				flex: 0 550px;
 				height: 460px;
 				background: #FFFFFF;
+				img{
+					height: 100%;
+					width: 100%;
+					object-fit: cover;
+				}
+				.custom-marker{
+					margin-top: -62px;
+					margin-left: -15px;
+					margin-bottom: 52px;
+					width: 40px;
+				}
 			}
 			&-info{
 				flex: 1;

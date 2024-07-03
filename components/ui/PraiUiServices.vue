@@ -11,19 +11,12 @@
 			:slidesPerView="'auto'"
 			class="mySwiper")
 			swiper-slide(v-for="(services, idx) in storeServices.getOtherServicesWithoutIntegr" @click="$_ui_services_openFeedback(services.title)")
-				nuxt-link.service-card(to="/")
-					svg(xmlns='http://www.w3.org/2000/svg' width='310' height='355' viewbox='0 0 310 355' fill='none')
-						path( fill='#0E0C15' :stroke='`url(#paint${idx})`' d='M286 354.5H24C11.0213 354.5 0.5 343.979 0.5 331V24C0.5 11.0213 11.0213 0.5 24 0.5H249.979C256.258 0.5 262.276 3.01258 266.69 7.4774L302.711 43.9088C307.061 48.308 309.5 54.2449 309.5 60.4314V331C309.5 343.979 298.979 354.5 286 354.5Z')
-						defs
-							// eslint-ignore-next-line
-							lineargradient(:id='`paint${idx}`' x1='155' y1='0' x2='155' y2='355' gradientunits='userSpaceOnUse')
-								stop(:stop-color='services.gradient.stop_1')
-								stop(offset='0.40625' :stop-color='services.gradient.stop_2' stop-opacity='0.790885')
-								stop(offset='1' stop-color='#211F27' stop-opacity='0.27')
+				.service-card-bg(:style="`--stop_1:${services.gradient.stop_1};--stop_2:${services.gradient.stop_2};`")
+				.service-card
 					.title {{services.title}}
 					.description {{services.desc}}
 					.footer-services
-						PraiUiIcon(:icon="'services/'+services.icon" :color="services.gradient.stop_2")
+						PraiUiIcon(:icon="'services/'+services.icon" :color="services.gradient.stop_2" shadow)
 						.link Узнать подробнее
 							img(src="/img/arrow.svg")
 </template>
@@ -43,13 +36,18 @@
 				offsetContainer: 0,
 				storeServices: useServicesStore(),
 				storeUtils: useUtilsStore(),
-				storeModal: useModalStore()
+				storeModal: useModalStore(),
+				l: false
 			}
 		},
 		mounted() {
 			this.$_ui_services_setWidth()
+			this.$nextTick(() => this.l = true)
 		},
-		components: { Swiper, SwiperSlide, PraiUiIcon },
+		components: {
+			Swiper, SwiperSlide,
+			PraiUiIcon: defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue')),
+		},
 		watch: {
 			'storeUtils.getWidth'(){
 				this.$_ui_services_setWidth()
@@ -88,30 +86,35 @@
 	}
 
 	.service-card{
-		border-radius: 20px;
+		border-radius: 24px 5px 24px 24px;
 		min-height: 295px;
-		width: calc(100% - 60px);
+		width: calc(100% - 64px);
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		color: $white;
 		padding: 30px;
 		max-width: 355px;
+		background: $bg-block-black;
+		margin: 2px;
+		cursor: pointer;
+		transition: $anim-small;
 		&:hover{
-			.footer .link{
-				color: $blue;
+			background: getColorTransparent($bg-block-black, 0.9);
+			.footer-services .link{
 				column-gap: 24px;
-				img{
-					filter: brightness(1) invert(0);
-				}
 			}
 		}
-		svg{
+		&-bg{
 			position: absolute;
 			z-index: -1;
 			top: 0;
 			left: 0;
+			width: 100%;
+			height: 100%;
 			max-width: 100%;
+			background: linear-gradient(180deg, var(--stop_1) 0%, var(--stop_2) 40.63%, #211F2745 100%);
+			border-radius: 24px 5px 24px 24px;
 		}
 		.title{
 			font-size: 19px;

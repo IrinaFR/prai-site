@@ -1,40 +1,41 @@
 <template lang="pug">
 .block-share
 	.block-share-social(v-if="social" )
-		ShareNetwork.share(
-			network="vk"
-			:url="storeRequest.config.public.baseUrl + link"
-			:title="title"
-			:description="desc")
-			img(src="/img/feedback/vk.svg")
-		ShareNetwork.share(
-			network="telegram"
-			:url="storeRequest.config.public.baseUrl + link"
-			:title="title"
-			:description="desc")
-			img(src="/img/feedback/telegram.svg")
-		ShareNetwork.share(
-			network="whatsapp"
-			:url="storeRequest.config.public.baseUrl + link"
-			:title="title"
-			:description="desc")
-			img(src="/img/feedback/whatsapp.svg")
-		ShareNetwork.share(
-			network="odnoklassniki"
-			:url="storeRequest.config.public.baseUrl + link"
-			:title="title"
-			:description="desc")
-			img(src="/img/feedback/ok.svg")
+		ClientOnly
+			ShareNetwork.share(
+				network="vk"
+				:url="url + link"
+				:title="title"
+				:description="desc")
+				img(src="/img/feedback/vk.svg")
+			ShareNetwork.share(
+				network="telegram"
+				:url="url + link"
+				:title="title"
+				:description="desc")
+				img(src="/img/feedback/telegram.svg")
+			ShareNetwork.share(d
+				network="whatsapp"
+				:url="url + link"
+				:title="title"
+				:description="desc")
+				img(src="/img/feedback/whatsapp.svg")
+			ShareNetwork.share(
+				network="odnoklassniki"
+				:url="url + link"
+				:title="title"
+				:description="desc")
+				img(src="/img/feedback/ok.svg")
 	.share.copy(@click="$_news_page_copyLink()" ref="copyLink" )
 		img(src="/img/feedback/link.svg")
 		span(ref="refShareCopy") Скопировать ссылку
-	.share.fire
-		img(src="/img/news/fire.svg")
-		| {{likes}}
+	//.share.fire
+	//	img(src="/img/news/fire.svg")
+	//	| {{likes}}
 </template>
 
 <script>
-	import {useRequestStore} from "/store/request";
+	import {useRuntimeConfig} from "nuxt/app";
 	export default {
 		props: {
 			likes: Number,
@@ -54,7 +55,7 @@
 		},
 		data(){
 			return{
-				storeRequest: useRequestStore()
+				url: useRuntimeConfig().public.baseUrl + '/'
 			}
 		},
 		methods: {

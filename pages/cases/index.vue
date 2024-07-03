@@ -17,20 +17,23 @@
 </template>
 
 <script setup>
-	import PraiUiCardCase from "/components/ui/PraiUiCardCase.vue";
-	import {useRequestStore} from "/store/request";
-	const storeRequest = useRequestStore()
-	import {useHeaderStore} from "/store/header";
-	import {watch} from "vue";
-	const storeHeader = useHeaderStore()
-
-
-
-	await useAsyncData('cases', () => {
-		// if(route.query.cat) selectTag.value = +route.query.cat
-		// if(route.query.page) currentPage.value = +route.query.page
-		$_case_index_loadCase()
+	const title = 'Кейсы - нейросети, мобильные приложения, веб приложения'
+	const description = 'Выполненные проекты | Результаты разработки, технической поддержки | Примеры работ по разработке бизнес-решений: NLP (нейросети), мобильные приложения, сайты | ПРАЙ'
+	useHead({
+		title,
+		meta: [
+			{ name: 'description', content: description },
+			{ property: 'og:title', content: 'Кейсы | ПРАЙ' },
+			{ property: 'og:description', content: description },
+		]
 	})
+
+
+	const PraiUiCardCase = defineAsyncComponent(() => import('/components/ui/PraiUiCardCase.vue'))
+	import {useHeaderStore} from "/store/header";
+	import {nextTick, watch} from "vue";
+	const storeHeader = useHeaderStore()
+	const { $makeRequest } = useNuxtApp()
 
 	const cases = ref([])
 	const lastId = ref(0)
@@ -69,8 +72,13 @@
 	onBeforeUnmount(() => {
 		if(!observer.value.isActive) observer.value.unobserve(refTargetLazy.value)
 	})
+
+	const { data } = await useAsyncData('cases', async () => {
+		return await $_case_index_loadCase()
+	})
+	if(data.value) $_case_index_setData(data.value)
 	async function $_case_index_loadCase(){
-		const res = await storeRequest.request('POST', 'cases/all', {
+		const res = await $makeRequest('POST', 'cases/all', {
 			id_case: lastId.value,
 			search: search.value
 		})
@@ -78,13 +86,24 @@
 			if(res.cases.length) {
 				cases.value = [...cases.value, ...res.cases]
 				lastId.value = cases.value.at(-1).id
-				console.log(cases.value)
 			}
-			if(res.cases.length < 10 && observer.value.isActive) {
-				observer.value.unobserve(refTargetLazy.value)
-				observer.value.isActive = false
+			nextTick(() => {
+				if(cases.value.length < 10 && observer?.value?.isActive) {
+					observer.value.unobserve(refTargetLazy.value)
+					observer.value.isActive = false
+				}
+			})
+
+			return {
+				cases: cases.value,
+				lastId: lastId.value
 			}
 		}
+		return null
+	}
+	function $_case_index_setData(data){
+		cases.value = data.cases
+		lastId.value = data.lastId
 	}
 </script>
 

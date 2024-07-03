@@ -33,7 +33,6 @@
 </template>
 
 <script>
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
 	import {useModalStore} from "/store/modal";
 	export default {
 		data(){
@@ -73,7 +72,9 @@
 				}
 			}
 		},
-		components: { PraiUiButtons }
+		components: {
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue')),
+		}
 	}
 
 </script>

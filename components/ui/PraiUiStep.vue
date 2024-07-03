@@ -6,17 +6,18 @@
 			h2.title Этапы работы
 		.step-work-list(:class="$props.class")
 			.step-work-list-slider
-				swiper.step-swiper(
-					:spaceBetween="16"
-					slidesPerView="auto"
-					:direction="'vertical'"
-					:allowTouchMove="false"
-					centered-slides
-					class="step-swiper"
-					@swiper="$_ui_stack_getRefSwiper")
-					swiper-slide.step-swiper-slide(v-for="step in steps")
-						ul
-							li(v-for="item in step.list" ) {{item}}
+				ClientOnly
+					swiper.step-swiper(
+						:spaceBetween="16"
+						slidesPerView="auto"
+						:direction="'vertical'"
+						:allowTouchMove="false"
+						centered-slides
+						class="step-swiper"
+						@swiper="$_ui_stack_getRefSwiper")
+						swiper-slide.step-swiper-slide(v-for="step in steps")
+							ul
+								li(v-for="item in step.list" ) {{item}}
 			.step-work-list-progress(:style="`--step:${progress}%`")
 				.point(v-for="idx in steps.length" :class="{active:swiperRef?.activeIndex >= idx - 1}")
 			.step-work-list-items
@@ -30,10 +31,12 @@ PraiUiStepMobile(:steps="steps" :class="$props.class" v-else)
 	import {Swiper, SwiperSlide} from "swiper/vue";
 	import { gsap } from "gsap/all";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
-	import PraiUiStepMobile from './PraiUiStepMobile.vue'
 	import {useUtilsStore} from "/store/utils";
 	export default {
-		components: {Swiper, SwiperSlide, PraiUiStepMobile},
+		components: {
+			Swiper, SwiperSlide,
+			PraiUiStepMobile: defineAsyncComponent(() => import('./PraiUiStepMobile.vue')),
+		},
 		props: {
 			class: {
 				type: String,

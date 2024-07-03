@@ -1,30 +1,33 @@
 <template lang="pug">
 .root-nlp
-	PraiNlpScreen
-	PraiUiListProducts(:products="products" subtitle="Виды решений")
-	PraiUiBenefits(:benefits="benefits" class="light-pink" subtitle="Возможности" description="С нами ваш бизнес готов к грядущей эпохе NLP, где интеллектуальные системы преобразуют способ взаимодействия с миром.")
-	PraiUiStep(:steps="steps")
-	PraiNlpStack
-	.container
-		.title-block.center
-			.subtitle-card.uppercase.blue Экспертность
-			h2.title Почему мы
-			.description Наша команда активно участвует в хакатонах по искусственному интеллекту и не раз завоёвывала призовые места. Наши успехи в хакатонах подтверждают нашу способность к инновациям, быстрому прототипированию и решению сложных задач. Мы настроены на достижение результатов и готовы разработать нейросеть, которая точно соответствует вашим потребностям и задачам.
-	PraiIndexHacks.mb-50
-	PraiUiCases
-	PraiFeedbackGoose
+	PraiIndexScreenNew
+	PraiUiContent
+		PraiUiListProducts(:products="products" subtitle="Виды решений")
+		PraiUiBenefits(:benefits="benefits" class="blue" subtitle="Возможности" description="С нами ваш бизнес готов к грядущей эпохе NLP, где интеллектуальные системы преобразуют способ взаимодействия с миром.")
+		PraiUiStep(:steps="steps")
+		PraiNlpStack
+		.container
+			.title-block.center
+				.subtitle-card.uppercase.blue Экспертность
+				h2.title Почему мы
+				.description Наша команда активно участвует в хакатонах по искусственному интеллекту и не раз завоёвывала призовые места. Наши успехи в хакатонах подтверждают нашу способность к инновациям, быстрому прототипированию и решению сложных задач. Мы настроены на достижение результатов и готовы разработать нейросеть, которая точно соответствует вашим потребностям и задачам.
+		PraiIndexHacks.mb-50
+		PraiUiCases
+		PraiFeedbackGoose
 </template>
 
 
 <script setup>
-	import PraiNlpScreen from "/components/nlp/PraiNlpScreen.vue";
-	import PraiUiListProducts from "/components/ui/PraiUiListProducts.vue";
-	import PraiUiBenefits from "/components/ui/PraiUiBenefits.vue";
-	import PraiUiStep from "/components/ui/PraiUiStep.vue";
-	import PraiNlpStack from "/components/nlp/PraiNlpStack.vue";
-	import PraiIndexHacks from "/components/index/PraiIndexHacks.vue";
-	import PraiUiCases from "/components/ui/PraiUiCases.vue";
-	import PraiFeedbackGoose from "/components/feedback/PraiFeedbackGoose.vue";
+
+	const PraiIndexScreenNew = defineAsyncComponent(() => import('/components/nlp/PraiIndexScreenNew.vue'))
+	const PraiUiContent = defineAsyncComponent(() => import('/components/ui/PraiUiContent.vue'))
+	const PraiUiListProducts = defineAsyncComponent(() => import('/components/ui/PraiUiListProducts.vue'))
+	const PraiUiBenefits = defineAsyncComponent(() => import('/components/ui/PraiUiBenefits.vue'))
+	const PraiUiStep = defineAsyncComponent(() => import('/components/ui/PraiUiStep.vue'))
+	const PraiNlpStack = defineAsyncComponent(() => import('/components/nlp/PraiNlpStack.vue'))
+	const PraiIndexHacks = defineAsyncComponent(() => import('/components/index/PraiIndexHacks.vue'))
+	const PraiUiCases = defineAsyncComponent(() => import('/components/ui/PraiUiCases.vue'))
+	const PraiFeedbackGoose = defineAsyncComponent(() => import('/components/feedback/PraiFeedbackGoose.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	import {onMounted} from "vue";
@@ -39,6 +42,27 @@
 			colorHeader: '#ffffff',
 		})
 	})
+
+	const defaultTitle = 'Разработка искусственного интелекта, нейронных сетей на заказ «под ключ», машинное обучение'
+	const defaultDescription = 'Разрабатываем нейронные сети, искусственный интелект на заказ - «под ключ», анализ, машинное обучение (learn machine), внедрение. Обработка датасетов, автоматизация бизнеса. Проконсультироваться со специалистами ☎️ +7 (995) 226-07-38'
+	useHead({
+		title: defaultTitle,
+		meta: [
+			{ name: 'description', content: defaultDescription },
+			{ property: 'og:title', content: defaultTitle },
+			{ property: 'og:description', content: defaultDescription },
+			{ property: 'og:type', content: 'article' },
+			{ property: 'article:author', content: 'Компания разработчик PRAI' },
+			{ property: 'article:section', content: 'Нейросети'},
+			{ property: 'article:tag', content: 'NLP'},
+			{ property: 'article:tag', content: 'AI'},
+			{ property: 'article:tag', content: 'ИИ'},
+			{ property: 'article:tag', content: 'Машинное обучение'},
+			{ property: 'article:published_time', content: '2024-07-01T19:24:06+00:00' },
+			{ property: 'article:modified_time', content: '2024-07-01T19:24:06+00:00' },
+		]
+	})
+
 	const products = [
 		{
 			title: 'Автоматизированные текстовые анализы',
@@ -184,3 +208,9 @@
 		},
 	]
 </script>
+
+<style scoped lang="scss">
+	.root-nlp{
+		padding-top: 100vh;
+	}
+</style>

@@ -15,7 +15,7 @@ svg(version="1.1" id="Features-SVG" xmlns="http://www.w3.org/2000/svg" xmlns:xli
 
 		linearGradient(id="Features-dropletLineGradient" gradientUnits="userSpaceOnUse" x1="977.4597" y1="777.3409" x2="977.4597" y2="510.8409")
 			stop(offset="0" stop-color="#00C838" stop-opacity="0")
-			stop(offset="1" stop-color="#00C838" )
+			stop(offset="1" stop-color="#00C838")
 
 		linearGradien( id="Features-leftGradient" gradientUnits="userSpaceOnUse" x1="1.3595" y1="373.64" x2="362.0595" y2="373.64" gradientTransform="matrix(1 0 0 -1 0 763.7801)")
 			stop(offset="0" stop-color="#FFFFFF" stop-opacity="0")

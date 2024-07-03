@@ -24,7 +24,7 @@
 		computed: {
 			style(){
 				let style = `background:${this.color};width:${this.size}px;min-width:${this.size}px;height:${this.size}px;border-radius:${this.radius}px;`
-				if(this.shadow) style += `box-shadow: 0px 13px 21px 7px ${this.hexToRgb(this.color)}`
+				if(this.shadow) style += `box-shadow: 0px 6px 12px 3px ${this.hexToRgb(this.color)}`
 				return style
 			}
 		},

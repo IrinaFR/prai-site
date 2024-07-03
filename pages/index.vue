@@ -19,18 +19,18 @@
 </template>
 
 <script setup>
-	import PraiIndexScreen from "/components/index/PraiIndexScreen.vue";
-	import PraiUiContent from "/components/ui/PraiUiContent.vue";
-	import PraiIndexMainServices from "/components/index/PraiIndexMainServices.vue";
-	import PraiUiServices from "/components/ui/PraiUiServices.vue";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
-	import PraiUiIntegrations from "/components/ui/PraiUiIntegrations.vue";
-	import PraiUiCases from "/components/ui/PraiUiCases.vue";
-	import PraiNewsList from "/components/news/PraiNewsList.vue";
-	import PraiIndexAbout from "/components/index/PraiIndexAbout.vue";
-	import PraiIndexHacks from "/components/index/PraiIndexHacks.vue";
-	import PraiUiFaq from "/components/ui/PraiUiFaq.vue";
-	import PraiFeedbackGoose from "/components/feedback/PraiFeedbackGoose.vue";
+	const PraiIndexScreen = defineAsyncComponent(() => import('/components/index/PraiIndexScreen.vue'))
+	const PraiUiContent = defineAsyncComponent(() => import('/components/ui/PraiUiContent.vue'))
+	const PraiIndexMainServices = defineAsyncComponent(() => import('/components/index/PraiIndexMainServices.vue'))
+	const PraiUiServices = defineAsyncComponent(() => import('/components/ui/PraiUiServices.vue'))
+	const PraiUiButtons = defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
+	const PraiUiIntegrations = defineAsyncComponent(() => import('/components/ui/PraiUiIntegrations.vue'));
+	const PraiUiCases = defineAsyncComponent(() => import('/components/ui/PraiUiCases.vue'))
+	const PraiNewsList = defineAsyncComponent(() => import('/components/news/PraiNewsList.vue'))
+	const PraiIndexAbout = defineAsyncComponent(() => import('/components/index/PraiIndexAbout.vue'))
+	const PraiIndexHacks = defineAsyncComponent(() => import('/components/index/PraiIndexHacks.vue'))
+	const PraiUiFaq = defineAsyncComponent(() => import('/components/ui/PraiUiFaq.vue'))
+	const PraiFeedbackGoose = defineAsyncComponent(() => import('/components/feedback/PraiFeedbackGoose.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	const store = useHeaderStore()

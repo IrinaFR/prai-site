@@ -11,18 +11,36 @@
 </template>
 
 <script setup>
-	import PraiMobileScreen from '/components/mobile/PraiMobileScreen.vue'
-	import PraiUiListProducts from "/components/ui/PraiUiListProducts.vue";
-	import PraiUiBenefits from "/components/ui/PraiUiBenefits.vue";
-	import PraiUiIntegrations from "/components/ui/PraiUiIntegrations.vue";
-	import PraiUiStep from "/components/ui/PraiUiStep.vue";
-	import PraiUiStack from "/components/ui/PraiUiStack.vue";
-	import PraiUiCases from "/components/ui/PraiUiCases.vue";
-	import PraiFeedbackGoose from "/components/feedback/PraiFeedbackGoose.vue";
+	const PraiMobileScreen = defineAsyncComponent(() => import('/components/mobile/PraiMobileScreen.vue'))
+	const PraiUiListProducts = defineAsyncComponent(() => import('/components/ui/PraiUiListProducts.vue'))
+	const PraiUiBenefits = defineAsyncComponent(() => import('/components/ui/PraiUiBenefits.vue'))
+	const PraiUiIntegrations = defineAsyncComponent(() => import('/components/ui/PraiUiIntegrations.vue'))
+	const PraiUiStep = defineAsyncComponent(() => import('/components/ui/PraiUiStep.vue'))
+	const PraiUiStack = defineAsyncComponent(() => import('/components/ui/PraiUiStack.vue'))
+	const PraiUiCases = defineAsyncComponent(() => import('/components/ui/PraiUiCases.vue'))
+	const PraiFeedbackGoose = defineAsyncComponent(() => import('/components/feedback/PraiFeedbackGoose.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	import {onMounted} from "vue";
 	const store = useHeaderStore()
+
+	const defaultTitle = 'Разработка мобильного приложения - заказать для iOS, android'
+	const defaultDescription = 'Создаём кроссплатформенные мобильные приложения: ✔️ Современный дизайн ✔️ Интеграция 1С'
+	useHead({
+		title: defaultTitle,
+		meta: [
+			{ name: 'description', content: defaultDescription },
+			{ property: 'og:title', content: defaultTitle },
+			{ property: 'og:description', content: defaultDescription },
+			{ property: 'og:type', content: 'article' },
+			{ property: 'article:author', content: 'Компания разработчик PRAI' },
+			{ property: 'article:section', content: 'Мобильные приложения' },
+			{ property: 'article:tag', content: 'Приложения для iOS' },
+			{ property: 'article:tag', content: 'Приложения для Android' },
+			{ property: 'article:published_time', content: '2024-07-01T19:24:06+00:00' },
+			{ property: 'article:modified_time', content: '2024-07-01T19:24:06+00:00' },
+		]
+	})
 
 	onMounted(() => {
 		store.setHeader({

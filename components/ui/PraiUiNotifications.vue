@@ -16,17 +16,6 @@
 				storeNotification: useNotificationStore(),
 			}
 		},
-		methods: {
-			// $_ui_notifications_getStyle(type) {
-			// 	switch (type){
-			// 		case 'warning': return '#FF9500'
-			// 		case 'success': return '#00B46F'
-			// 		case 'danger': return '#E73B0F'
-			// 		case 'info': return '#4773FC'
-			// 		default: return 'red'
-			// 	}
-			// }
-		}
 	}
 </script>
 

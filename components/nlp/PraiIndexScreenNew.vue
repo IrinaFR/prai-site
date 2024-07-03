@@ -1,11 +1,14 @@
 <template lang="pug">
-.main-screen-web
+.main-screen-nlp
 	.container
 		.main-screen-info
-			h1.title Веб - приложения
-				span.pink нового уровня
-			.subtitle Передовая разработка веб-приложений с использованием передовых технологий. Мы создаем крупные и сложные веб-проекты, поднимающие ваш бизнес на новый уровень.
-			PraiUiButtons(class="light-pink" text="Рассчитать стоимость" @click="$_index_screen_openModal")
+			h1.title Разработка
+				span.blue  нейросетей
+				|  и систем
+				span.blue  искуственного интеллекта
+				|  для бизнеса
+			.subtitle Переопределите возможности бизнеса с нашей экспертной разработкой нейросетей NLP. Превратите данные в инсайты с выдающимися моделями обработки естественного языка.
+			PraiUiButtons(text="Обсудить проект" @click="$_index_screen_openModal")
 			//.info
 			//	.item
 			//		.image
@@ -19,26 +22,25 @@
 			//			img(src="/img/rocket.svg")
 			//			| {{storeSite.count_case}}
 			//		.desc(v-html="$_index_screen_Intl('project', storeSite.count_case)" )
-		.main-screen-slider(v-show="swiperRef" )
-			swiper.item-swiper(
-				:spaceBetween="storeUtils.getWidth > 768 ? 50 : 0"
-				:slidesPerView="countPerView"
-				:autoplay="{ delay: 3500, disableOnInteraction: false }"
-				:height="storeUtils.getWidth > 768 ? 485 : null"
-				centered-slides
-				:modules="modules"
-				:direction="storeUtils.getWidth > 768 ? 'vertical' : 'horizontal'"
-				class="step-swiper"
-				@swiper="$_index_screen_getSwiperRef"
-				loop)
-				swiper-slide.item-swiper-slide(v-for="item in list")
-					router-link(:to="item.url")
-						img(:src="`/img/cases/projects/${item.img}`")
-	img.pattern(src="/img/index/pattern-index.svg")
+		//.main-screen-slider(v-show="swiperRef" )
+		//	swiper.item-swiper(
+		//		:spaceBetween="storeUtils.getWidth > 768 ? 50 : 0"
+		//		:slidesPerView="countPerView"
+		//		:autoplay="{ delay: 3500, disableOnInteraction: false }"
+		//		:height="storeUtils.getWidth > 768 ? 485 : null"
+		//		centered-slides
+		//		:modules="modules"
+		//		:direction="storeUtils.getWidth > 768 ? 'vertical' : 'horizontal'"
+		//		class="step-swiper"
+		//		@swiper="$_index_screen_getSwiperRef"
+		//		loop)
+		//		swiper-slide.item-swiper-slide(v-for="item in list")
+		//			router-link(:to="item.url")
+		//				img(:src="`/img/cases/projects/${item.img}`")
+	img.pattern(src="/img/index/pattern-blue.svg")
 </template>
 
 <script>
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
 	import {useModalStore} from "/store/modal";
 	import {useSiteStore} from "/store/site";
 	import {useUtilsStore} from "/store/utils";
@@ -46,7 +48,10 @@
 	import { Autoplay } from "swiper/modules";
 
 	export default {
-		components: { PraiUiButtons, Swiper, SwiperSlide },
+		components: {
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue')),
+			Swiper, SwiperSlide
+		},
 		data(){
 			return{
 				swiperRef: null,
@@ -114,18 +119,19 @@
 </script>
 
 <style scoped lang="scss">
-	.main-screen-web{
+	.main-screen-nlp{
 		position: fixed;
 		top: 0;
 		left: 0;
 		height: 100vh;
 		width: 100%;
 		max-width: 100%;
-		background: #F4F5F7 url("/public/img/pattert-light.png") repeat;
-		background-size: 450px;
+		background: $bg-block-black url("/public/img/dot.png") repeat;
+		background-size: 14px;
 		@media(max-width: 768px){
 			overflow: hidden;
-			height: fit-content;
+			display: flex;
+			align-items: center;
 		}
 		.pattern{
 			position: absolute;
@@ -150,9 +156,9 @@
 				}
 			}
 			.main-screen-info{
-				max-width: 60%;
+				max-width: 80%;
 				@media(max-width: 931px){
-					max-width: 55%;
+					max-width: 95%;
 				}
 				@media(max-width: 768px){
 					max-width: 100%;
@@ -167,8 +173,12 @@
 					display: flex;
 					flex-wrap: wrap;
 					column-gap: 5px;
-					.pink{
-						color: $light-pink;
+					color: $white;
+					.blue{
+						color: $blue;
+						display: flex;
+						flex-wrap: wrap;
+						column-gap: 5px;
 					}
 					@media(max-width: 768px){
 						max-width: 100%;
@@ -178,9 +188,10 @@
 					}
 				}
 				.subtitle{
-					font-size: pxToRem(17);
-					color: $light-secondary-text;
-					margin: 20px 0 50px;
+					font-size: pxToRem(15);
+					line-height: 135%;
+					color: $white;
+					margin: 45px 0 50px;
 					@media(max-width: 768px){
 						text-align: center;
 					}

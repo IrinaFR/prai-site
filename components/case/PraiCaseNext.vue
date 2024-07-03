@@ -6,26 +6,22 @@
 				.tip Предыдущий кейс
 				.title {{other[0].name}}
 			.case-slide-item-preview
-				img(:src="`${storeRequest.config.app.apiServerImg}photo/case/${other[0].img}`")
+				img(:src="`${useRuntimeConfig().public.apiServerImg}photo/case/${other[0].img}`")
 		router-link.case-slide-item(:to="`/cases/${other[1].short_name}`")
 			.case-slide-item-info
 				.tip Следующий кейс
 				.title {{other[1].name}}
 			.case-slide-item-preview
-				img(:src="`${storeRequest.config.app.apiServerImg}photo/case/${other[1].img}`")
+				img(:src="`${useRuntimeConfig().public.apiServerImg}photo/case/${other[1].img}`")
 </template>
 
 <script>
-	import {useRequestStore} from "/store/request";
+	import {useRuntimeConfig} from "nuxt/app";
 	export default {
+		methods: {useRuntimeConfig},
 		props: {
 			other: Array
 		},
-		data(){
-			return{
-				storeRequest: useRequestStore()
-			}
-		}
 	}
 </script>
 

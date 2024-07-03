@@ -10,11 +10,12 @@
 </template>
 
 <script>
-	import PraiMobileScreenBg from '/components/mobile/PraiMobileScreenBg.vue'
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
 	import {useModalStore} from "/store/modal";
 	export default {
-		components: { PraiMobileScreenBg, PraiUiButtons },
+		components: {
+			PraiMobileScreenBg: defineAsyncComponent(() => import('/components/mobile/PraiMobileScreenBg.vue')),
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
+		},
 		data(){
 			return{
 				storeModal: useModalStore()

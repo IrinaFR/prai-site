@@ -1,7 +1,7 @@
 <template lang="pug">
 nuxt-link.card-case(:to="`/cases/${data?.short_name}`")
 	.card-case-image
-		img(:src="`${storeRequest.config.app.apiServerImg}photo/case/${data?.img}`")
+		img(:src="`${useRuntimeConfig().public.apiServerImg}photo/case/${data?.img}`")
 	.card-case-info
 		.title(:style="`--serviceColor:${serviceColor}`") {{data?.name}}
 		.list-services(v-if="data" )
@@ -14,15 +14,15 @@ nuxt-link.card-case(:to="`/cases/${data?.short_name}`")
 </template>
 
 <script>
-	import {useRequestStore} from "/store/request";
 	import {useServicesStore} from "/store/services";
+	import {useRuntimeConfig} from "nuxt/app";
 	export default {
+		methods: {useRuntimeConfig},
 		props: {
 			data: Object
 		},
 		data(){
 			return{
-				storeRequest: useRequestStore(),
 				storeService: useServicesStore()
 			}
 		},
@@ -55,6 +55,11 @@ nuxt-link.card-case(:to="`/cases/${data?.short_name}`")
 		@media(max-width: 768px){
 			max-width: 100%;
 			min-height: fit-content;
+			&:hover{
+				.title{
+					color: $white;
+				}
+			}
 		}
 		&-image{
 			width: 100%;

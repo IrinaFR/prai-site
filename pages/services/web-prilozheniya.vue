@@ -12,18 +12,38 @@
 </template>
 
 <script setup>
-	import PraiUiContent from "/components/ui/PraiUiContent.vue";
-	import PraiIndexScreenNew from "/components/web/PraiIndexScreenNew.vue";
-	import PraiUiListProducts from "/components/ui/PraiUiListProducts.vue";
-	import PraiUiBenefits from "/components/ui/PraiUiBenefits.vue";
-	import PraiUiIntegrations from "/components/ui/PraiUiIntegrations.vue";
-	import PraiUiStep from "/components/ui/PraiUiStep.vue";
-	import PraiUiStack from "/components/ui/PraiUiStack.vue";
-	import PraiUiCases from "/components/ui/PraiUiCases.vue";
-	import PraiFeedbackGoose from "/components/feedback/PraiFeedbackGoose.vue";
+	const PraiUiContent = defineAsyncComponent(() => import('/components/ui/PraiUiContent.vue'))
+	const PraiIndexScreenNew = defineAsyncComponent(() => import('/components/web/PraiIndexScreenNew.vue'))
+	const PraiUiListProducts = defineAsyncComponent(() => import('/components/ui/PraiUiListProducts.vue'))
+	const PraiUiBenefits = defineAsyncComponent(() => import('/components/ui/PraiUiBenefits.vue'))
+	const PraiUiIntegrations = defineAsyncComponent(() => import('/components/ui/PraiUiIntegrations.vue'))
+	const PraiUiStep = defineAsyncComponent(() => import('/components/ui/PraiUiStep.vue'))
+	const PraiUiStack = defineAsyncComponent(() => import('/components/ui/PraiUiStack.vue'))
+	const PraiUiCases = defineAsyncComponent(() => import('/components/ui/PraiUiCases.vue'))
+	const PraiFeedbackGoose = defineAsyncComponent(() => import('/components/feedback/PraiFeedbackGoose.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	const store = useHeaderStore()
+
+	const defaultTitle = 'Создание сайта любой сложности «под ключ»'
+	const defaultDescription = 'Заказать создание сайта любой сложности: ✔️ Современный дизайн ✔️ Интеграция 1С ✔️ Интернет-магазины ✔️ CRM система ✔️ Индивидуальные решения!'
+	useHead({
+		title: defaultTitle,
+		meta: [
+			{ name: 'description', content: defaultDescription },
+			{ property: 'og:title', content: defaultTitle },
+			{ property: 'og:description', content: defaultDescription },
+			{ property: 'og:type', content: 'article' },
+			{ property: 'article:author', content: 'Компания разработчик PRAI' },
+			{ property: 'article:section', content: 'Веб приложения' },
+			{ property: 'article:tag', content: 'CRM-системы' },
+			{ property: 'article:tag', content: 'Интернет-магазины' },
+			{ property: 'article:tag', content: 'Корпоративные сайты' },
+			{ property: 'article:published_time', content: '2024-07-01T19:24:06+00:00' },
+			{ property: 'article:modified_time', content: '2024-07-01T19:24:06+00:00' },
+		]
+	})
+
 
 	onMounted(() => {
 		store.setHeader({

@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
+	const PraiUiIcon = defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue'))
 </script>
 
 <style scoped lang="scss">

@@ -1,10 +1,10 @@
 <template lang="pug">
 .container
 	.hack-slider
-		.hack-slider-show(ref="currentSlide" v-if="hackatons.length" )
+		.hack-slider-show(ref="refCurrentSlide" v-if="hackatons.length" )
 			.hack-slider-show-slider-parent
 				.hack-slider-show-slider
-					swiper(
+					Swiper(
 						ref="hackSlider"
 						:pagination="{clickable: true}"
 						:modules="modules"
@@ -13,7 +13,7 @@
 						class="hack-swiper"
 						@swiper="$_index_hack_slider_setSwiper")
 						swiper-slide.hack-swiper-slide(v-for="slide in hackatons[current].files" )
-							img(:src="`${storeRequest.config.app.apiServerImg}photo/hackatons/${slide}`")
+							img(:src="`${useRuntimeConfig().public.apiServerImg}photo/hackatons/${slide}`")
 					.hack-slider-navigation
 						.hack-swiper-button-prev(@click="$_index_hack_slider_miniSlideTo('prev')")
 							img(src="/img/arrow.svg" alt="icon")
@@ -29,7 +29,7 @@
 					span.bracket  ]
 				.title Кейс:
 				.size-14.light-grey {{hackatons[current].task}}
-				.title.mt-8 Наше решение:
+				.title.mt-24 Наше решение:
 				.size-14.light-grey {{hackatons[current].solve}}
 				.awards
 					img(:src="`/img/awards/medal-${hackatons[current].award}.svg`" alt="icon" v-if="showPlace")
@@ -41,79 +41,81 @@
 					img(src="/img/arrow.svg" alt="icon")
 		.hack-slider-controls
 			.arrow.left(@click="$_index_hack_slider_hackatonSlide('prev')") {{prevTitle}}
-				img(src="/img/awards/arrow.svg" alt="icon")
+				.icon
+					img(src="/img/arrow.svg" alt="icon")
 			.arrow.right(@click="$_index_hack_slider_hackatonSlide('next')") {{nextTitle}}
-				img(src="/img/awards/arrow.svg" alt="icon")
+				.icon
+					img(src="/img/arrow.svg" alt="icon")
 </template>
 
-<script>
+<script setup>
 	import { Swiper, SwiperSlide } from "swiper/vue";
 	import { Pagination } from "swiper/modules";
+	import {useRuntimeConfig} from "nuxt/app";
 
-	import {useRequestStore} from "/store/request";
-	export default {
-		data(){
-			return{
-				modules: [Pagination],
-				swiper: null,
-				hackatons: [],
-				current: 0,
-				storeRequest: useRequestStore()
-			}
-		},
-		components: {
-			Swiper, SwiperSlide
-		},
-		created() {
-			this.$_index_hack_slider_loadHacks()
-		},
-		computed: {
-			showPlace(){
-				return this.hackatons[this.current].award && this.hackatons[this.current].award < 4
-			},
-			prevTitle(){
-				if(this.hackatons.length){
-					if(this.current === 0) return this.hackatons.at(-1).name
-					else return this.hackatons[this.current - 1].name
-				}
-			},
-			nextTitle(){
-				if(this.hackatons.length){
-					if(this.current === this.hackatons.length - 1) return this.hackatons[0].name
-					else return this.hackatons[this.current + 1].name
-				}
-			},
+	const modules = [Pagination]
+	const swiper = ref(null)
+	const hackatons = ref([])
+	const current = ref(0)
 
-		},
-		methods: {
-			async $_index_hack_slider_loadHacks(){
-				const res = await this.storeRequest.request('GET', 'hackatons/all/0')
-				if(res&&!res.err){
-					this.hackatons = res.hacks
-				}
-			},
-			$_index_hack_slider_setSwiper(swiper){
-				this.swiper = swiper
-			},
-			$_index_hack_slider_miniSlideTo(side){
-				side === 'next'
-					? this.swiper.slideNext()
-					: this.swiper.slidePrev()
-			},
-			$_index_hack_slider_hackatonSlide(side){
-				this.$refs.currentSlide.classList.add('animate')
-				if(side === 'next'){
-					if(this.current === this.hackatons.length - 1) this.current = 0
-						else this.current++
-				} else {
-					if(this.current === 0) this.current = this.hackatons.length - 1
-					else this.current--
-				}
-				setTimeout(() => {
-					this.$refs.currentSlide.classList.remove('animate')
-				}, 550)
-			}
+	const showPlace = computed(() => {
+		return hackatons.value[current.value].award && hackatons.value[current.value].award < 4
+	})
+	const prevTitle = computed(() => {
+		if(hackatons.value.length){
+			if(current.value === 0) return hackatons.value.at(-1).name
+			else return hackatons.value[current.value - 1].name
 		}
+	})
+	const nextTitle = computed(() => {
+		if(hackatons.value.length){
+			if(current.value === hackatons.value.length - 1) return hackatons.value[0].name
+			else return hackatons.value[current.value + 1].name
+		}
+	})
+
+	const { $makeRequest } = useNuxtApp()
+
+	const { data } = await useAsyncData('hacks', async () => {
+		return await $_index_hack_slider_loadHacks()
+	})
+
+	if(data.value) $_index_hack_slider_setData(data.value)
+	async function $_index_hack_slider_loadHacks(){
+		const res = await $makeRequest('GET', 'hackatons/all/0')
+		if(res&&!res.err){
+			hackatons.value = res.hacks
+			return { hackatons: hackatons.value }
+		}
+		return null
+	}
+	function $_index_hack_slider_setData(data){
+		hackatons.value = data.hackatons
+	}
+	function $_index_hack_slider_setSwiper(instance){
+		swiper.value = instance
+	}
+	function $_index_hack_slider_miniSlideTo(side){
+		side === 'next'
+			? swiper.value.slideNext()
+			: swiper.value.slidePrev()
+	}
+
+	const refCurrentSlide = ref(null)
+	function $_index_hack_slider_hackatonSlide(side){
+		refCurrentSlide.value.classList.add('animate')
+		if(side === 'next'){
+			if(current.value === hackatons.value.length - 1) current.value = 0
+			else current.value++
+		} else {
+			if(current.value === 0) current.value = hackatons.value.length - 1
+			else current.value--
+		}
+		swiper.value.slideTo(0)
+
+		setTimeout(() => {
+			refCurrentSlide.value.classList.remove('animate')
+		}, 550)
 	}
 </script>
 
@@ -127,6 +129,7 @@
 		&-show{
 			display: flex;
 			align-items: center;
+			min-height: 655px;
 			column-gap: 75px;
 			row-gap: 16px;
 			position: relative;
@@ -187,23 +190,46 @@
 				display: none;
 			}
 			.arrow{
+				width: 45%;
+				max-width: 45%;
 				display: flex;
-				flex-direction: column;
-				row-gap: 12px;
-				font-size: 20px;
+				column-gap: 24px;
+				flex-direction: row-reverse;
+				align-items: center;
+				padding: 10px;
+				font-size: pxToRem(18);
 				font-weight: 600;
 				cursor: pointer;
 				transition: $anim-small;
 				&:hover{
 					color: $blue;
 				}
-				img{
-					width: 179px;
+				.icon{
+					box-shadow: 0 4px 20px 0 rgba(69, 93, 178, 0.25);
+					background: $white;
+					border-radius: 50%;
+					width: 28px;
+					min-width: 28px;
+					height: 28px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					img{
+						width: 6px;
+					}
+				}
+				&.left{
+					justify-content: start;
+					img{
+						transform: rotate(90deg);
+					}
 				}
 				&.right{
-					align-items: end;
+					justify-content: end;
+					text-align: end;
+					flex-direction: row;
 					img{
-						transform: scale(-1, 1);
+						transform: rotate(-90deg);
 					}
 				}
 				@media(max-width: 845px){
@@ -213,7 +239,8 @@
 		}
 		&-controls-mobile{
 			position: absolute;
-			top: 425px;
+			top: auto;
+			bottom: 0;
 			left: 0;
 			transform: translateY(-50%);
 			display: none;
@@ -223,9 +250,6 @@
 			z-index: 3;
 			@media(max-width: 567px) {
 				display: flex;
-			}
-			@media(max-width: 530px){
-				top: 50%;
 			}
 			.arrow{
 				border-radius: 50%;

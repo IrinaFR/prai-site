@@ -9,55 +9,106 @@ nuxt-layout
 	PraiModalFeedback
 PraiUiNotifications
 </template>
-<script>
-	import PraiHeader from "./components/header/PraiHeader.vue";
-	import PraiMobileHeader from "./components/header/mobile/PraiMobileHeader.vue";
-	import PraiFooter from "/components/footer/PraiFooter.vue";
-	import {useUtilsStore} from "/store/utils";
-	import {useModalStore} from "/store/modal";
-	import {useSiteStore} from "/store/site";
-	import {useRequestStore} from "/store/request";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
-	import PraiModalFeedback from "/components/modal/PraiModalFeedback.vue";
-	import PraiFormFeedback from "/components/feedback/PraiFormFeedback.vue";
-	import PraiUiCookies from "/components/ui/PraiUiCookies.vue";
-	import PraiUiNotifications from "/components/ui/PraiUiNotifications.vue";
-	export default {
+<script setup>
+	const PraiHeader = defineAsyncComponent(() => import('/components/header/PraiHeader.vue'))
+	const PraiMobileHeader = defineAsyncComponent(() => import('/components/header/mobile/PraiMobileHeader.vue'))
+	const PraiFooter = defineAsyncComponent(() => import('/components/footer/PraiFooter.vue'))
+	const PraiUiButtons = defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
+	const PraiModalFeedback = defineAsyncComponent(() => import('/components/modal/PraiModalFeedback.vue'))
+	const PraiFormFeedback = defineAsyncComponent(() => import('/components/feedback/PraiFormFeedback.vue'))
+	const PraiUiCookies = defineAsyncComponent(() => import('/components/ui/PraiUiCookies.vue'))
+	const PraiUiNotifications = defineAsyncComponent(() => import('/components/ui/PraiUiNotifications.vue'))
 
-		data(){
-			return{
-				storeUtils: useUtilsStore(),
-				storeModal: useModalStore(),
-				storeSite: useSiteStore(),
-				storeRequest: useRequestStore()
+
+	import {useUtilsStore} from "/store/utils";
+	const storeUtils = useUtilsStore()
+	import {useModalStore} from "/store/modal";
+	const storeModal = useModalStore()
+	import {useSiteStore} from "/store/site";
+	const storeSite = useSiteStore()
+
+	const { $makeRequest } = useNuxtApp()
+
+	onMounted(async () => {
+		await $_prai_app_updateWidth()
+		window.addEventListener('resize', $_prai_app_updateWidth);
+	})
+
+	async function $_prai_app_loadSettings(){
+		const res =  await $makeRequest('GET', 'settings')
+		if(res&&!res.err){
+			await storeSite.setNews(res.news)
+			await storeSite.setCases(res.cases)
+			await storeSite.setCounts(res.count_case, res.count_hack)
+			return {
+				news: res.news,
+				cases: res.cases,
+				count_case: res.count_case,
+				count_hack: res.count_hack,
 			}
-		},
-		async mounted() {
-			await this.$_prai_app_loadSettings()
-			await this.$_prai_app_updateWidth()
-			window.addEventListener('resize', this.$_prai_app_updateWidth);
-		},
-		methods: {
-			async $_prai_app_loadSettings(){
-				const res =  await this.storeRequest.request('GET', 'settings')
-				if(res&&!res.err){
-					await this.storeSite.setNews(res.news)
-					await this.storeSite.setCases(res.cases)
-					await this.storeSite.setCounts(res.count_case, res.count_hack)
-				}
-			},
-			$_prai_app_updateWidth() {
-				this.storeUtils.setWidthScreen(+window.innerWidth)
-			},
-		},
-		created() {
-			console.log('%c Хочешь к нам в команду? \n info@prai.su', 'font-size:20px; font-weight:700; color:#0072FA;')
-		},
-		components: {
-			PraiHeader, PraiMobileHeader, PraiFooter,
-			PraiUiButtons, PraiModalFeedback, PraiFormFeedback,
-			PraiUiCookies, PraiUiNotifications
-		},
+		}
+		return null
 	}
+	function $_prai_app_updateWidth() {
+		storeUtils.setWidthScreen(+window.innerWidth)
+	}
+
+	console.log('%c Хочешь к нам в команду? \n info@prai.su', 'font-size:20px; font-weight:700; color:#0072FA;')
+
+
+	await useAsyncData('settings', async () => {
+		return await $_prai_app_loadSettings()
+	})
+
+
+
+	const route = useRoute()
+	const baseUrl = useRuntimeConfig().public.baseUrl
+	const defaultTitle = 'Разработка программных решений и информационных систем | ПРАЙ'
+	const defaultDescription = 'Заказать разработку, создание, NLP, нейросетей, сайто, мобильных приложений | Цифровые решения для бизнеса и государства по всей России | Дизайн сайтов, мобильных приложений | Качественный подход и техническое обслуживание'
+	// мета
+	useHead({
+		titleTemplate: (existTitle) => {
+			return existTitle
+				? `${existTitle} | ПРАЙ`
+				: defaultTitle
+		},
+		link: [
+			{
+				rel: 'canonical',
+				href: computed(() => baseUrl + route.fullPath.slice(0, -1)),
+			},
+		],
+		meta: [
+			{
+				name: 'description',
+				content: defaultDescription
+			},
+			{
+				property: 'og:title',
+				content: defaultTitle
+			},
+			{
+				property: 'og:description',
+				content: defaultDescription
+			},
+			{
+				property: 'og:url',
+				content: computed(() => baseUrl + route.fullPath.slice(0, -1))
+			},
+			{
+				property: 'og:image',
+				content: baseUrl + '/img/og/ogImage.png'
+			},
+			{
+				property: 'og:locale',
+				content: 'ru_RU'
+			},
+			{
+				property: 'og:site_name',
+				content: 'PRAI - компания разработчик нейросетей, веб и мобильных приложений'
+			}
+		]
+	})
 
 </script>

@@ -7,16 +7,15 @@
 		.list-products
 			.list-products-item(v-for="product in products")
 				.head
-					PraiUiIcon(:color="product.color" :icon="'products/' + product.icon")
+					PraiUiIcon(:color="product.color" :icon="'products/' + product.icon" shadow)
 					| {{product.title}}
 				.desc {{product.desc}}
 </template>
 
 <script>
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
 	export default {
 		components: {
-			PraiUiIcon
+			PraiUiIcon: defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue')),
 		},
 		props: {
 			products: Array,

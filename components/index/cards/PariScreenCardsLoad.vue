@@ -11,9 +11,10 @@
 </template>
 
 <script>
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
 	export default {
-		components: { PraiUiIcon },
+		components: {
+			PraiUiIcon: defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue'))
+		},
 		data(){
 			return{
 				progress: 0

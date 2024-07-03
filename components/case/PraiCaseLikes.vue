@@ -5,20 +5,30 @@
 			.title-block.center.white
 				.subtitle-card.uppercase(:style="`--brandColor:${brandColor};--brandColorOpacity:${brandColor}33`") Отзыв
 				h2.title {{review.author}}
-				.description(v-html="review.description" )
+				.description(v-html="review.description")
 		.case-likes
 			.case-likes-title Понравился кейс?
-			PraiUiShare.light(:likes="likes" :title="title" :link="link" :desc="services.length ? services.join(', ') : 'Описание кейса компании ПРАЙ'")
-		.case-form
-			.title Связаться с нами
-			input.dark(placeholder="+7 999 000-00-00" v-mask="'+7 (###) ###-##-##'")
-			PraiUiButtons(text="Связаться с нами")
+			PraiUiShare.light(:likes="likes" :title="title" :link="link" :desc="services?.length ? getListServices : 'Описание кейса компании ПРАЙ'")
+		.case-feedback-form
+			.case-form
+				.title Связаться с нами
+				input.dark(
+					v-model="phone"
+					placeholder="+7 (___) ___-__-__"
+					:class="{error:!validPhone&&!valid}"
+					v-maska="'phone'")
+				PraiUiButtons(text="Отправить заявку" @click="$_case_likes_submitOrderCall")
+			.case-agreement
+				input.check#feedbackSide(type="checkbox" v-model="agreement" :class="{error:!valid&&!agreement}")
+				label.check(for="feedbackSide") Согласен с
+					nuxt-link(href="/politika") условиями обработки персональных данных
 </template>
 
 <script>
-	import PraiUiShare from "/components/ui/PraiUiShare.vue";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
-	import {maska} from "maska";
+
+	import {useServicesStore} from "/store/services";
+	import {useModalStore} from "/store/modal";
+	import {useNotificationStore} from "/store/notification";
 	export default {
 		props: {
 			brandColor: String,
@@ -28,16 +38,50 @@
 			review: Object,
 			link: String
 		},
+		data(){
+			return{
+				phone: '',
+				agreement: false,
+				valid: true,
+				storeNotif: useNotificationStore()
+			}
+		},
 		computed: {
 			showReview(){
 				return (this.review.author || this.review.post)&&this.review.description
+			},
+			getListServices(){
+				return this.services.map(s => {
+					return useServicesStore().getNameServiceById(s)
+				}).join(', ')
+			},
+			validPhone(){
+				return !!this.phone && this.phone.replace(/[\D]+/g, '').length === 11
 			}
 		},
-		directives: {
-			mask: maska
+		methods: {
+			async $_case_likes_submitOrderCall(){
+				if(!this.validPhone) {
+					this.valid = false
+					return
+				}
+				if(this.agreement){
+					const res = await useModalStore().sendFormFeedback(this.phone, '', `Страница кейса - ${this.title}`)
+					if(res) {
+						this.phone = ''
+						this.agreement = false
+						this.valid = true
+						this.storeNotif.addNotification({img: '/feedback/fire.gif', text: 'Благодарим за заявку, скоро с вами свяжемся'})
+					}
+					else this.storeNotif.addNotification({img: '/feedback/bellissimo.png', text: 'Произошла какая-то проблема, уже чиним!'})
+				} else {
+					this.valid = false
+				}
+			}
 		},
 		components: {
-			PraiUiShare, PraiUiButtons
+			PraiUiShare: defineAsyncComponent(() => import('/components/ui/PraiUiShare.vue')),
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue')),
 		}
 	}
 </script>
@@ -64,6 +108,14 @@
 				font-weight: 600;
 			}
 		}
+		.case-feedback-form{
+			display: flex;
+			align-items: end;
+			flex-direction: column;
+			row-gap: 15px;
+			width: fit-content;
+			margin: 35px auto auto;
+		}
 		.case-form{
 			display: flex;
 			justify-content: center;
@@ -86,6 +138,27 @@
 				input{
 					width: 100%;
 				}
+			}
+		}
+		.case-agreement{
+			display: flex;
+			column-gap: 10px;
+			align-items: center;
+			label.check{
+				font-size: pxToRem(14);
+				color: $dark-secondary-text;
+				line-height: 18px;
+				cursor: pointer;
+				a{
+					color: $blue;
+					text-decoration: underline;
+					margin-left: 3px;
+				}
+			}
+			.form-group{
+				display: flex;
+				column-gap: 15px;
+				margin-bottom: 50px;
 			}
 		}
 	}

@@ -22,11 +22,11 @@
 				nuxt-link(to="/contacts" @mouseenter="$_prai_header_toggleSidebar('')") О нас
 			.header-number(@mouseenter="$_prai_header_toggleSidebar('')")
 				a(href="tel:+79952260738") +7 995 226-07-38
-				label.header-menu.cross#menuFullToggle
-					svg(width="30" height="25" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg")
-						path(:fill="store.header.colorHeader" d="M0 1C0 0.447715 0.447715 0 1 0H28.1315C28.9302 0 29.4066 0.890145 28.9635 1.5547L28.2969 2.5547C28.1114 2.8329 27.7992 3 27.4648 3H1C0.447715 3 0 2.55228 0 2V1Z")
-						path(:fill="store.header.colorHeader" d="M0 12C0 11.4477 0.447715 11 1 11H13.1315C13.9302 11 14.4066 11.8901 13.9635 12.5547L13.2969 13.5547C13.1114 13.8329 12.7992 14 12.4648 14H1C0.447715 14 0 13.5523 0 13V12Z")
-						path(:fill="store.header.colorHeader" d="M0 23C0 22.4477 0.447715 22 1 22H22.1315C22.9302 22 23.4066 22.8901 22.9635 23.5547L22.2969 24.5547C22.1114 24.8329 21.7992 25 21.4648 25H1C0.447716 25 0 24.5523 0 24V23Z")
+				//label.header-menu.cross#menuFullToggle
+				//	svg(width="30" height="25" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+				//		path(:fill="store.header.colorHeader" d="M0 1C0 0.447715 0.447715 0 1 0H28.1315C28.9302 0 29.4066 0.890145 28.9635 1.5547L28.2969 2.5547C28.1114 2.8329 27.7992 3 27.4648 3H1C0.447715 3 0 2.55228 0 2V1Z")
+				//		path(:fill="store.header.colorHeader" d="M0 12C0 11.4477 0.447715 11 1 11H13.1315C13.9302 11 14.4066 11.8901 13.9635 12.5547L13.2969 13.5547C13.1114 13.8329 12.7992 14 12.4648 14H1C0.447715 14 0 13.5523 0 13V12Z")
+				//		path(:fill="store.header.colorHeader" d="M0 23C0 22.4477 0.447715 22 1 22H22.1315C22.9302 22 23.4066 22.8901 22.9635 23.5547L22.2969 24.5547C22.1114 24.8329 21.7992 25 21.4648 25H1C0.447716 25 0 24.5523 0 24V23Z")
 		.header-sidebar(ref="sidebarMain")
 				PraiHeaderServices(v-show="sidebar==='services'")
 				PraiHeaderProducts(v-show="sidebar==='products'")
@@ -34,9 +34,6 @@ PraiHeaderFullMenu
 </template>
 
 <script>
-	import PraiHeaderServices from './PraiHeaderServices.vue'
-	import PraiHeaderProducts from './PraiHeaderProducts.vue'
-	import PraiHeaderFullMenu from './full/PraiHeaderFullMenu.vue'
 	import { useHeaderStore } from "/store/header";
 	export default {
 		data(){
@@ -46,7 +43,9 @@ PraiHeaderFullMenu
 			}
 		},
 		components: {
-			PraiHeaderServices, PraiHeaderProducts, PraiHeaderFullMenu
+			PraiHeaderServices: defineAsyncComponent(() => import('./PraiHeaderServices.vue')),
+			PraiHeaderProducts: defineAsyncComponent(() => import('./PraiHeaderProducts.vue')),
+			PraiHeaderFullMenu: defineAsyncComponent(() => import('./full/PraiHeaderFullMenu.vue'))
 		},
 		computed: {
 			styleHeader(){

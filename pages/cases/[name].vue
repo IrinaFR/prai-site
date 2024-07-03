@@ -1,6 +1,6 @@
 <template lang="pug">
 .root-case(v-if="loaded" )
-	PraiCaseHeader(:brandColor="brand_color" :title="caseInfo.name" :services="caseInfo.data.services" :tags="caseInfo.data.tags")
+	PraiCaseHeader(:brandColor="brand_color" :title="caseInfo.name" :services="caseInfo.cat" :tags="caseInfo.data.tags")
 	PraiCaseAbout#aboutClient(:brandColor="brand_color" :about="caseInfo.data.about" v-if="showAbout" )
 	PraiCaseTask#taskCase(:brandColor="brand_color" :task="caseInfo.data.task" v-if="caseInfo.data.task" )
 	PraiCaseStep#stepsCase(:steps="caseInfo.data.steps" v-if="caseInfo.data.steps.length" )
@@ -8,7 +8,7 @@
 	PraiCaseTest#testCase(:brandColor="brand_color" :test="caseInfo.data.test" v-if="caseInfo.data.test" )
 	PraiCaseStack#stackCase(:stack="caseInfo.data.stack" v-if="caseInfo.data.stack.length")
 	PraiCaseFeature#featuresCase(:brandColor="brand_color" :text="caseInfo.data.features" v-if="caseInfo.data.features" )
-	PraiCaseLikes#reviewCase(:brandColor="brand_color" :likes="12" :review="caseInfo.data.review" :link="'cases/' + caseInfo.short_name" :title="caseInfo.name" :services="caseInfo.data.services" v-if="showReview" )
+	PraiCaseLikes#reviewCase(:brandColor="brand_color" :likes="12" :review="caseInfo.data.review" :link="'cases/' + caseInfo.short_name" :title="caseInfo.name" :services="caseInfo.cat" v-if="showReview" )
 	PraiCaseNext(:other="otherCase")
 	.case-menu-anchor(:style="`background:${brand_color};color:${caseInfo.data.about.light_header ? '#ffffff' : '#010004'}`")
 		.case-menu-anchor-link(@click="offsetScroll('aboutClient')" v-if="showAbout") О клиенте
@@ -22,23 +22,22 @@
 </template>
 
 <script setup>
-	import PraiCaseHeader from "/components/case/PraiCaseHeader.vue";
-	import PraiCaseAbout from '/components/case/PraiCaseAbout.vue'
-	import PraiCaseTask from '/components/case/PraiCaseTask.vue'
-	import PraiCaseStep from '/components/case/PraiCaseStep.vue'
-	import PraiCaseFinal from '/components/case/PraiCaseFinal.vue'
-	import PraiCaseTest from '/components/case/PraiCaseTest.vue'
-	import PraiCaseStack from '/components/case/PraiCaseStack.vue'
-	import PraiCaseFeature from '/components/case/PraiCaseFeature.vue'
-	import PraiCaseLikes from '/components/case/PraiCaseLikes.vue'
-	import PraiCaseNext from '/components/case/PraiCaseNext.vue'
+	const PraiCaseHeader = defineAsyncComponent(() => import('/components/case/PraiCaseHeader.vue'))
+	const PraiCaseAbout = defineAsyncComponent(() => import('/components/case/PraiCaseAbout.vue'))
+	const PraiCaseTask = defineAsyncComponent(() => import('/components/case/PraiCaseTask.vue'))
+	const PraiCaseStep = defineAsyncComponent(() => import('/components/case/PraiCaseStep.vue'))
+	const PraiCaseFinal = defineAsyncComponent(() => import('/components/case/PraiCaseFinal.vue'))
+	const PraiCaseTest = defineAsyncComponent(() => import('/components/case/PraiCaseTest.vue'))
+	const PraiCaseStack = defineAsyncComponent(() => import('/components/case/PraiCaseStack.vue'))
+	const PraiCaseFeature = defineAsyncComponent(() => import('/components/case/PraiCaseFeature.vue'))
+	const PraiCaseLikes = defineAsyncComponent(() => import('/components/case/PraiCaseLikes.vue'))
+	const PraiCaseNext = defineAsyncComponent(() => import('/components/case/PraiCaseNext.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	const store = useHeaderStore()
-	import {useRequestStore} from "/store/request";
-	const storeRequest = useRequestStore()
-	import {useRoute} from "nuxt/app";
+	import {useNuxtApp, useRoute, useRuntimeConfig} from "nuxt/app";
 	const route = useRoute()
+	const { $makeRequest } = useNuxtApp()
 
 
 	const loaded = ref(false)
@@ -46,44 +45,55 @@
 	const otherCase = ref([])
 	const brand_color = ref('')
 
-	await useAsyncData('cases', () => {
-		// if(route.query.cat) selectTag.value = +route.query.cat
-		// if(route.query.page) currentPage.value = +route.query.page
-		$_case_page_loadCase()
+	const { data } = await useAsyncData('casePage', async () => {
+		return await $_case_page_loadCase()
 	})
+	if(data.value) $_case_page_setData(data.value)
 	const offsetScroll = (id) => {
 		const el = document.getElementById(id)
 		window.scrollTo(0, el.offsetTop - 130)
 	}
 	async function $_case_page_loadCase(){
-		const res = await storeRequest.request('GET', 'cases/' + route.params.name)
-		if(res&&!res.err){
-			caseInfo.value = res.data
-			otherCase.value = res.other
-			brand_color.value = caseInfo.value.data.about.brand_color
-
-			useHead({
-				title: caseInfo.value.title,
-			})
-			useSeoMeta({
-				title: caseInfo.value.name,
-				ogTitle: caseInfo.value.name,
-				description: caseInfo.value.name.description,
-				ogDescription: caseInfo.value.name.description,
-				ogImage: `${storeRequest.config.app.apiServerImg}photo/case/${caseInfo.value.img}`,
-			})
-
-			store.setHeader({
-				logo: caseInfo.value.data.about.brand_color ,
-				opacity: 0.70,
-				border: 'rgba(0, 181, 113, 0.5)',
-				bgHeader: '14, 12, 21,',
-				colorHeader: caseInfo.value.data.about.light_header ? '#ffffff' : '#010004',
-			})
-
-			loaded.value = true
+		let caseInfo = null
+		try{
+			const res = await $makeRequest('GET', 'cases/' + route.params.name)
+			if(res&&!res.err){
+				caseInfo = {
+					data: res.data,
+					other: res.other
+				}
+			}
+			return {caseInfo}
+		} catch (error) {
+			console.error('Error load case', error.message)
+			return null
 		}
 	}
+	function $_case_page_setData(data){
+		caseInfo.value = data.caseInfo.data
+		otherCase.value = data.caseInfo.other
+		brand_color.value = caseInfo.value.data.about.brand_color
+		useHead({
+			title: caseInfo.value.title,
+			meta: [
+				{name: 'description', content: 'Кейс | ' + caseInfo.value.description},
+				{property: 'og:title', content: 'Кейс | ' + caseInfo.value.name},
+				{property: 'og:description', content: 'Кейс | ' + caseInfo.value.description},
+				{property: 'og:image', content: `${useRuntimeConfig().public.apiServerImg}photo/case/${caseInfo.value.img}`}
+			]
+		})
+
+		store.setHeader({
+			logo: caseInfo.value.data.about.brand_color ,
+			opacity: 0.70,
+			border: 'rgba(0, 181, 113, 0.5)',
+			bgHeader: '14, 12, 21,',
+			colorHeader: caseInfo.value.data.about.light_header ? '#ffffff' : '#010004',
+		})
+
+		loaded.value = true
+	}
+
 
 	const showAbout = computed(() => {
 		return !!(caseInfo.value.data && caseInfo.value.data.about.description);

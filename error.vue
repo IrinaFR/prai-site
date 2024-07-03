@@ -8,6 +8,15 @@
 		nuxt-link(to="/") На главную
 </template>
 
+<script setup >
+
+  const props = defineProps({
+    error: Object
+  })
+  console.log('PAGE ERROR -----------------')
+  console.error(props.error.message)
+</script>
+
 <style scoped lang="scss">
 	.root-not-found{
 		background: $bg-block-black;

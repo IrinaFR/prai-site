@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-	import PraiUiIcon from "../ui/PraiUiIcon.vue";
-	import PraiHeaderBlock from "./PraiHeaderBlock.vue";
+	const PraiUiIcon = defineAsyncComponent(() => import('../ui/PraiUiIcon.vue'))
+	const PraiHeaderBlock = defineAsyncComponent(() => import('./PraiHeaderBlock.vue'))
 
 	import {useServicesStore} from "/store/services";
 	const store = useServicesStore()

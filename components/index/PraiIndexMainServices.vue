@@ -7,10 +7,10 @@
 		.description Работая с каждым клиентом как с единственным, мы помогаем бизнесам и стартапам становиться лидерами за счёт разработки и внедрения уникального программного обеспечения и сервисов
 	.services-list
 		.gradient
-		router-link.services-list-item.ai(to="/razrabotka-nejrosetej")
+		router-link.services-list-item.ai(to="/services/razrabotka-nejrosetej")
 			.info
 				.title
-					PraiUiIcon(icon="/services/ai.svg" color="#0072FA")
+					PraiUiIcon(icon="/services/ai.svg" color="#0072FA" shadow)
 					| Natural Language Processing
 				.description Мы специализируемся на создании нейросетей для обработки естественного языка (NLP), позволяя вашей компании извлекать ценную информацию из текстовых данных. Мы разрабатываем модели для автоматического анализа текстов, определения тональности, категоризации и извлечения смысла из больших объёмов текстовой информации.
 				.services-list-item-products
@@ -26,10 +26,10 @@
 					.ring
 					.ring
 					.ring
-		router-link.services-list-item.web(to="/web-prilozheniya")
+		router-link.services-list-item.web(to="/services/web-prilozheniya")
 			.info
 				.title
-					PraiUiIcon(icon="/services/web.svg" color="#FA0096")
+					PraiUiIcon(icon="/services/web.svg" color="#FA0096" shadow)
 					| Веб-приложения
 				.description Мы создаём современные и интуитивно понятные веб-приложения, которые позволят вашим клиентам удобно взаимодействовать с вашим бизнесом онлайн. Наша команда разработчиков специализируется на фронтенде и бэкенде, обеспечивая отличное пользовательское впечатление и эффективное функционирование приложения.
 				.services-list-item-products
@@ -40,12 +40,12 @@
 			.animate
 				.ctrl
 					.sphere
-		router-link.services-list-item.app(to="/mobilnaya-razrabotka")
+		router-link.services-list-item.app(to="/services/mobilnaya-razrabotka")
 			.info
 				.title
-					PraiUiIcon(icon="/services/app.svg" color="#28AF07")
+					PraiUiIcon(icon="/services/app.svg" color="#28AF07" shadow)
 					| Мобильные приложения
-				.description Мы создаём высококачественные приложения под управлением iOS и Android. Мы следуем лучшим практикам разработки, чтобы обеспечить отличное пользовательское взаимодействие, высокую производительность и надёжность. Ваши клиенты смогут пользоваться вашими услугами и продуктами в любое время и в любом месте.
+				.description Мы создаём качественные кроссплатформенные приложения под управлением iOS и Android. Мы следуем лучшим практикам разработки, чтобы обеспечить отличное пользовательское взаимодействие, высокую производительность и надёжность. Ваши клиенты смогут пользоваться вашими услугами и продуктами в любое время и в любом месте.
 				.services-list-item-products
 					.subtitle-card.green Онлайн-бронирование
 					.subtitle-card.green Умный дом
@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
+	const PraiUiIcon = defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue'))
 </script>
 
 <style scoped lang="scss">

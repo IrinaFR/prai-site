@@ -53,11 +53,12 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 </template>
 
 <script>
-	import PraiHeaderMobileOffcanvas from "/components/header/mobile/PraiHeaderMobileOffcanvas.vue";
 	import {useServicesStore} from "/store/services";
 	import {useModalStore} from "/store/modal";
 	export default {
-		components: { PraiHeaderMobileOffcanvas },
+		components: {
+			PraiHeaderMobileOffcanvas: defineAsyncComponent(() => import('/components/header/mobile/PraiHeaderMobileOffcanvas.vue'))
+		},
 		data(){
 			return{
 				logo: '#3843FF',

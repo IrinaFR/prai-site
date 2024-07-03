@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
+	const PraiUiButtons = defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
 	import {useModalStore} from "/store/modal";
 	const storeModal = useModalStore()
 </script>

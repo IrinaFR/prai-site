@@ -25,6 +25,10 @@
 		gap: 16px;
 		&.vertical{
 			flex-direction: column;
+			@media(max-width: 862px){
+				flex-direction: row;
+				column-gap: 24px;
+			}
 		}
 		.icon{
 			border-radius: 13px;

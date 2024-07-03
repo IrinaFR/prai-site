@@ -7,16 +7,16 @@
 		.about-grid
 			.about-grid-info
 				.item
-					PraiUiIcon(color="#0019FA" icon="about/test.svg")
-					.desc Разработчики с 20-летним стажем и опытом работы в госструктурах и бизнесе
+					PraiUiIcon(color="#0019FA" icon="about/test.svg" shadow)
+					.desc Разработчики с 20-летним стажем и опытом работы в бизнесе
 				.item
-					PraiUiIcon(color="#3CC50B" icon="about/test.svg")
+					PraiUiIcon(color="#3CC50B" icon="about/test.svg" shadow)
 					.desc Многократные призёры и победители всероссийского хакатона «Цифровой прорыв» президентского проекта «Россия страна возможностей»
 				.item
-					PraiUiIcon(color="#D6A322" icon="about/test.svg")
+					PraiUiIcon(color="#D6A322" icon="about/test.svg" shadow)
 					.desc Участники акселерации «Фонда содействия инновациям»
 				.item
-					PraiUiIcon(color="#9604EF" icon="about/test.svg")
+					PraiUiIcon(color="#9604EF" icon="about/test.svg" shadow)
 					.desc Аккредитованные специалисты RPA (Robotic process automation)
 			.about-grid-animate
 				.axis-icons
@@ -77,7 +77,7 @@
 								animate(attributeName="offset" values="0.1;1.1" dur="1.5s" repeatCount="indefinite")
 							stop(offset="0.604167" stop-color="#211F27")
 								animate(attributeName="offset" values="0.2;1.2" dur="1.5s" repeatCount="indefinite")
-		PraiUiButtons(text="Связаться с нами" @click="storeModal.openModal('modalFeedback', 'Блок о нас на главной')")
+		PraiUiButtons(text="Связаться с нами" @click="storeModal.openModalFeedback('Блок о нас на главной')")
 		.about-title
 			.status
 				img(src="/img/about/it.svg")
@@ -89,8 +89,8 @@
 </template>
 
 <script setup>
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
+	const PraiUiIcon = defineAsyncComponent(() => import('/components/ui/PraiUiIcon.vue'))
+	const PraiUiButtons = defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
 	import {useModalStore} from "/store/modal";
 	const storeModal = useModalStore()
 </script>

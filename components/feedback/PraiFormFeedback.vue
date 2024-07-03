@@ -1,6 +1,10 @@
 <template lang="pug">
 .form-feedback(:class="[{full:fullBtn}], $props.class")
-	input.dark(placeholder="+7 999 000-00-00" v-model="phone" v-mask="'+7 (###) ###-##-##'" :class="{error:!validPhone&&!valid}")
+	input.dark(
+		placeholder="+7 (___) ___-__-__"
+		v-maska="'phone'"
+		v-model="phone"
+		:class="{error:!validPhone&&!valid}")
 	PraiUiButtons(:text="text" @click="$_form_feedback_submit" :class="[$props.class, {'btn-full':fullBtn}]")
 	slot
 	.form-group
@@ -10,18 +14,12 @@
 </template>
 
 <script>
-	import {maska} from "maska";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
-	import {useRequestStore} from "/store/request";
 	import {useModalStore} from "/store/modal";
 	import {useNotificationStore} from "/store/notification";
 	export default {
 		emits: ['send'],
 		components: {
-			PraiUiButtons
-		},
-		directives: {
-			mask: maska
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
 		},
 		props: {
 			fullBtn: {
@@ -50,19 +48,18 @@
 				phone: '',
 				agreement: false,
 				storeModal: useModalStore(),
-				storeRequest: useRequestStore(),
 				valid: true,
 				storeNotif: useNotificationStore()
 			}
 		},
 		computed: {
 			validPhone(){
-				return !!this.phone && this.phone.length === 18
+				return !!this.phone && this.phone.replace(/[\D]+/g, '').length === 11
 			}
 		},
 		methods: {
 			async $_form_feedback_submit(){
-				if(!this.phone||this.phone.length < 18) {
+				if(!this.validPhone) {
 					this.valid = false
 					return
 				}
@@ -71,7 +68,7 @@
 					if(res) {
 						this.phone = ''
 						this.valid = true
-						this.storeNotif.addNotification({img: '/feedback/fire.gif', text: 'Заявка отправлена, ожидайте звонка'})
+						this.storeNotif.addNotification({img: '/feedback/fire.gif', text: 'Благодарим за заявку, скоро с вами свяжемся'})
 					}
 					else this.storeNotif.addNotification({img: '/feedback/bellissimo.png', text: 'Произошла какая-то проблема, уже чиним!'})
 				} else {

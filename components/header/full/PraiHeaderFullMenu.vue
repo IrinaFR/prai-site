@@ -85,7 +85,7 @@
 			}
 		},
 		mounted() {
-			this.$_header_full_menu_toggle()
+			// this.$_header_full_menu_toggle()
 			this.$_header_full_menu_createWheel()
 		},
 		methods: {

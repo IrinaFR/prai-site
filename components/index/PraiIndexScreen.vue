@@ -43,7 +43,6 @@
 </template>
 
 <script>
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
 	import {useModalStore} from "/store/modal";
 	import {useSiteStore} from "/store/site";
 	import {useUtilsStore} from "/store/utils";
@@ -51,7 +50,9 @@
 	import { Autoplay } from "swiper/modules";
 
 	export default {
-		components: { PraiUiButtons, Swiper, SwiperSlide },
+		components: {
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue')),
+			Swiper, SwiperSlide },
 		data(){
 			return{
 				swiperRef: null,

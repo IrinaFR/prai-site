@@ -3,7 +3,7 @@
 	.container
 		h1.title(ref="titleCase") {{title}}
 		.services
-			.service(v-for="service in services" )
+			.service(v-for="service in getListServices" )
 				span.bold [
 				span  {{service}}
 				span.bold ]
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import {useServicesStore} from "/store/services";
 	export default {
 		props: {
 			brandColor: String,
@@ -28,6 +29,11 @@
 			window.addEventListener('resize', this.$_case_header_animate)
 		},
 		computed:{
+			getListServices(){
+				return this.services.map(s => {
+					return useServicesStore().getNameServiceById(s)
+				})
+			}
 		},
 		methods: {
 			$_case_header_animate(){

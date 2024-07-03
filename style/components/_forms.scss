@@ -82,13 +82,13 @@ form .tip{
 }
 input.grey-input{
 	background: #F0F0F0;
+	border: solid 1px #F0F0F0;
 	height: 48px;
 	width: 100%;
-	max-width: 270px;
+	max-width: 268px;
 	line-height: 48px;
 	padding: 0 16px;
 	border-radius: 12px;
-	border: none;
 	outline: none;
 	font-family: "Avenir Next Cyr", sans-serif;
 	font-size: pxToRem(16);
@@ -100,6 +100,12 @@ input.grey-input{
 	&::placeholder{
 		color: #949494;
 		font-size: pxToRem(16);
+	}
+	&:focus{
+		border: solid 1px $blue;
+	}
+	&:active{
+		box-shadow: 0 0 0 2px rgba(56, 67, 255, 0.43);
 	}
 }
 

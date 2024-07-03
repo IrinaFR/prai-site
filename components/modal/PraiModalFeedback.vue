@@ -10,12 +10,12 @@ vue-final-modal(
 			.modal-feedback-title Оставьте заявку
 			.modal-feedback-desc Укажите номер телефона и мы вам перезвоним, чтобы ответить на ваши вопросы
 		.modal-feedback-form
-			input.grey-input(v-model.trim="form.name" placeholder="Имя")
+			input.grey-input(v-model.trim="name" placeholder="Имя")
 			input.grey-input(
-				v-model="form.phone"
-				v-maska="'+7 (###) ###-##-##'"
-				placeholder="+7 (900) 000-00-00"
-				:class="{error:!validPhone&&!valid}")
+				v-model="phone"
+				placeholder="+7 (___) ___-__-__"
+				:class="{error:!validPhone&&!valid}"
+				v-maska="'phone'")
 			.form-group
 				input.check.light#feedbackSide(type="checkbox" v-model="agreement" :class="{error:!valid&&!agreement}")
 				label.check(for="feedbackSide") Согласен с
@@ -25,18 +25,13 @@ vue-final-modal(
 
 <script>
 	import {useVfm, VueFinalModal} from "vue-final-modal";
-	import PraiUiButtons from "/components/ui/PraiUiButtons.vue";
 	import {useNotificationStore} from "/store/notification";
 	import {useModalStore} from "/store/modal";
-	import {maska} from "maska";
 	export default{
-		directives: { maska },
 		data(){
 			return{
-				form: {
-					name: '',
-					phone: ''
-				},
+				name: '',
+				phone: '',
 				agreement: false,
 				valid: true,
 				modal: useVfm(),
@@ -45,7 +40,7 @@ vue-final-modal(
 		},
 		computed: {
 			validPhone(){
-				return !!this.form.phone && this.form.phone.length === 18
+				return !!this.phone && this.phone.replace(/[\D]+/g, '').length === 11
 			}
 		},
 		methods: {
@@ -55,14 +50,12 @@ vue-final-modal(
 					return
 				}
 				if(this.agreement){
-					const res = await useModalStore().sendFormFeedback(this.form.phone, this.form.name)
+					const res = await useModalStore().sendFormFeedback(this.phone, this.name)
 					if(res) {
-						this.form = {
-							name: '',
-							phone: ''
-						}
+						this.name = ''
+						this.phone = ''
 						this.valid = true
-						this.storeNotif.addNotification({img: '/feedback/fire.gif', text: 'Заявка отправлена, ожидайте звонка'})
+						this.storeNotif.addNotification({img: '/feedback/fire.gif', text: 'Благодарим за заявку, скоро с вами свяжемся'})
 					}
 					else this.storeNotif.addNotification({img: '/feedback/bellissimo.png', text: 'Произошла какая-то проблема, уже чиним!'})
 				} else {
@@ -71,7 +64,10 @@ vue-final-modal(
 
 			}
 		},
-		components: { VueFinalModal, PraiUiButtons }
+		components: {
+			VueFinalModal,
+			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
+		}
 	}
 </script>
 

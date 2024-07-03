@@ -74,9 +74,10 @@
 					grid-template-columns: repeat(2, 1fr);
 					grid-row-gap: 20px;
 					grid-column-gap: 82px;
-					a{
+					span{
 						display: block;
 						transition: $anim-small;
+						cursor: pointer;
 						&:hover{
 							color: $blue;
 						}
@@ -110,9 +111,6 @@
 						display: flex;
 						flex-wrap: wrap;
 						gap: 20px;
-					}
-					&-services .list{
-
 					}
 				}
 			}

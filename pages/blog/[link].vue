@@ -3,21 +3,24 @@
 	.container(v-if="loaded" )
 		.news-page-content
 			.news-page-content-head
-				img(:src="`${storeRequest.config.app.apiServerImg}photo/news/${news.img}`")
+				nuxt-img(
+					:src="`${useRuntimeConfig().public.apiServerImg}photo/news/${news.img}`"
+					placeholder-class="placeholderImage"
+					:alt="news.title")
 				.news-page-content-info
 					.tags
 						.subtitle-card.blue.uppercase {{storeSite.getNameTagById(news.cat)}}
 						.date
-							img(src="/img/news/calendar.svg")
+							nuxt-img(src="/img/news/calendar.svg" width="24" height="24" alt="icon" )
 							| {{dateNews}}
 					.title {{news.name}}
-					PraiUiShare.light(:likes="news.likes || 1" :title="news.name" :link="'blog/' + news.short_name" :desc="news.description" :social="false")
+					PraiUiShare.light(:title="news.name" :link="'blog/' + news.short_name" :desc="news.description" :social="false")
 			.news-page-content-description
 				.paragraph(v-for="(item, idx) in news.content" :id="'content' + idx")
 					.title(v-if="item.title") {{item.title}}
 					.description.htmlDescription.black(v-html="item.description" )
 			hr
-			PraiUiShare.my-25(:likes="news.likes || 1" :title="news.name" :link="'blog/' + news.short_name" :desc="news.description")
+			PraiUiShare.my-25(:title="news.name" :link="'blog/' + news.short_name" :desc="news.description")
 		.news-page-toc
 			.news-page-toc-progress
 				.dot(v-for="count in news.content.length" :class="[`dot-${count-1}`]")
@@ -29,12 +32,11 @@
 
 <script setup>
 	import {ref, toRef, computed, nextTick, onMounted} from 'vue'
-	import PraiUiShare from "/components/ui/PraiUiShare.vue";
+	import {useRuntimeConfig} from "nuxt/app";
+	const PraiUiShare = defineAsyncComponent(() => import('/components/ui/PraiUiShare.vue'))
 
 	import {useHeaderStore} from "/store/header";
 	const storeHeader = useHeaderStore()
-	import {useRequestStore} from "/store/request";
-	const storeRequest = useRequestStore()
 	import {useSiteStore} from "/store/site";
 	const storeSite = useSiteStore()
 	import {useUtilsStore} from "/store/utils";
@@ -42,6 +44,8 @@
 
 	import { gsap } from "gsap/all";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	const { $makeRequest } = useNuxtApp()
 
 
 	onMounted(() => {
@@ -53,6 +57,7 @@
 			colorHeader: '#010004',
 		})
 	})
+
 	const $_blog_page_setGSAP = () => {
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -85,14 +90,14 @@
 	import {useRoute} from "nuxt/app";
 	const route = useRoute()
 
-
-
 	const news = toRef({})
 	const loaded = ref(false)
+	const cats = ['Технологии', 'Дизайн', 'Разработка', 'Реклама', 'Аналитика']
 
-	await useAsyncData('news', () => {
-		$_blog_page_loadNews()
+	const { data } = await useAsyncData('newsPage', async () => {
+		return await $_blog_page_loadNews()
 	})
+	if(data.value) $_blog_page_setData(data.value)
 
 	const dateNews = computed(() => {
 		const date = new Date(news.value.date_create)
@@ -100,31 +105,45 @@
 	})
 
 	async function $_blog_page_loadNews(){
-		const res = await storeRequest.request('GET', 'news/' + route.params.link)
-		if(res&&!res.err){
-			news.value = res.news
+		try{
+			let newsPage = null
+			const res = await $makeRequest('GET', 'news/' + route.params.link)
+			if(res&&!res.err){
+				newsPage = res.news
+				const step = 1 / newsPage.content.length
+				newsPage.content.forEach((p, idx) => {
+					p.step = idx * step
+				})
+			}
 
-			const step = 1 / news.value.content.length
-			news.value.content.forEach((p, idx) => {
-				p.step = idx * step
-			})
-
-			loaded.value = true
-
-			nextTick(() => $_blog_page_setGSAP())
-
-
-			useHead({
-				title: news.value.title
-			})
-			useSeoMeta({
-				title: news.value.name,
-				ogTitle: news.value.name,
-				description: news.value.name.description,
-				ogDescription: news.value.name.description,
-				ogImage: `${storeRequest.config.app.apiServerImg}photo/news/${news.value.img}`,
-			})
+			return {news: newsPage}
+		} catch (error) {
+			console.error('Error load news', error.message)
+			return null
 		}
 	}
+
+	function $_blog_page_setData(data){
+		console.log(data.news)
+		news.value = data.news
+		useHead({
+			title: news.value.title,
+			meta: [
+				{ name: 'description', content: news.value.description },
+				{ property: 'og:title', content: news.value.title },
+				{ property: 'og:description', content: news.value.description },
+				{ property: 'og:image', content: `${useRuntimeConfig().public.apiServerImg}photo/news/${news.value.img}` },
+				{ property: 'og:type', content: 'article' },
+				{ property: 'article:author', content: 'Компания разработчик PRAI' },
+				{ property: 'article:section', content: cats[news.value.cat - 1] },
+				{ property: 'article:published_time', content: news.value.date_create },
+				{ property: 'article:modified_time', content: news.value.date_create },
+			]
+		})
+		loaded.value = true
+	}
+	onMounted(() => {
+		nextTick(() => $_blog_page_setGSAP())
+	})
 
 </script>
