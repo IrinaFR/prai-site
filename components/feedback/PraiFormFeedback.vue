@@ -17,7 +17,6 @@
 	import {useModalStore} from "/store/modal";
 	import {useNotificationStore} from "/store/notification";
 	export default {
-		emits: ['send'],
 		components: {
 			PraiUiButtons: defineAsyncComponent(() => import('/components/ui/PraiUiButtons.vue'))
 		},

@@ -28,7 +28,8 @@
 						//	input.d-none#feedbackPinFile(type="file")
 						//	img(src="/img/form/document.svg")
 						//	| Прикрепить файл
-		PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" :class="$props.class" @click="$router.push('/cases')")
+		ClientOnly
+			PraiUiButtons.mx-auto.mt-40(text="Смотреть все кейсы" :class="$props.class" @click="$router.push('/cases')")
 
 </template>
 

@@ -178,6 +178,11 @@
 		background: $white;
 		border-bottom-left-radius: 12px;
 		border-top-left-radius: 12px;
+		@media(max-width: 530px) {
+			max-width: 100%;
+			display: flex;
+			justify-content: center;
+		}
 		&.bg-black{
 			background: #000;
 		}

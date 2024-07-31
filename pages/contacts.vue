@@ -151,6 +151,9 @@
 			opacity: 0;
 			animation: fadeIn $anim-long forwards;
 			animation-delay: 1s;
+			@media(max-width: 768px){
+				padding-top: 100px;
+			}
 
 			&-map{
 				flex: 0 550px;

@@ -84,11 +84,11 @@
 		})
 
 		store.setHeader({
-			logo: caseInfo.value.data.about.brand_color ,
-			opacity: 0.70,
-			border: 'rgba(0, 181, 113, 0.5)',
-			bgHeader: '14, 12, 21,',
-			colorHeader: caseInfo.value.data.about.light_header ? '#ffffff' : '#010004',
+			logo: '#3843FF',
+			opacity: 0.78,
+			border: 'rgba(4, 125, 255, 0.42)',
+			bgHeader: '10, 10, 10,',
+			colorHeader: '#ffffff',
 		})
 
 		loaded.value = true
@@ -121,13 +121,17 @@
 		padding: 20px;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 20px 20px;
+		gap: 20px;
 		justify-content: center;
 		background: $blue;
 		&-link{
 			cursor: pointer;
 			font-size: pxToRem(14);
 			font-weight: 500;
+		}
+		@media(max-width: 768px) {
+			gap: 15px;
+			padding: 10px 20px;
 		}
 	}
 </style>

@@ -124,7 +124,6 @@
 	}
 
 	function $_blog_page_setData(data){
-		console.log(data.news)
 		news.value = data.news
 		useHead({
 			title: news.value.title,

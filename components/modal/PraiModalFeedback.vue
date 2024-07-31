@@ -75,7 +75,7 @@ vue-final-modal(
 	.modal-feedback{
 		padding: 20px 0;
 		max-width: 300px;
-		height: calc(100% - 40px);
+		height: calc(100% - (40px + env(safe-area-inset-top) + env(safe-area-inset-bottom)) );
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;

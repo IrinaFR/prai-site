@@ -13,7 +13,6 @@
   const props = defineProps({
     error: Object
   })
-  console.log('PAGE ERROR -----------------')
   console.error(props.error.message)
 </script>
 

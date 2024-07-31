@@ -39,10 +39,10 @@
 			$_case_header_animate(){
 				this.$nextTick(() => {
 					const title = this.$refs.titleCase
-					this.$refs.leftBorder.style.left = title.offsetLeft + 'px'
-					this.$refs.topBorder.style.top = title.offsetTop + 'px'
-					this.$refs.rightBorder.style.left = title.offsetLeft + title.offsetWidth + 'px'
-					this.$refs.bottomBorder.style.top = title.offsetTop + title.offsetHeight + 'px'
+					this.$refs.leftBorder.style.left = (title.offsetLeft - 5) + 'px'
+					this.$refs.topBorder.style.top = (title.offsetTop - 5) + 'px'
+					this.$refs.rightBorder.style.left = title.offsetLeft + title.offsetWidth + 5 + 'px'
+					this.$refs.bottomBorder.style.top = title.offsetTop + title.offsetHeight + 5 + 'px'
 
 				})
 			}
@@ -57,7 +57,7 @@
 		background-image: url("public/img/cases/patterSmallGrid.png");
 		background-size: 18.5px;
 		background-repeat: repeat;
-		background-color: var(--brandColor, $bg-block-black);
+		background-color: $bg-block-black;
 		position: relative;
 		overflow: hidden;
 		.container{
@@ -72,7 +72,7 @@
 			font-weight: 700;
 			line-height: 140%;
 			font-size: pxToRem(38);
-			color: var(--color, $white);
+			color: $white;
 			margin-bottom: 35px;
 			width: fit-content;
 			position: relative;

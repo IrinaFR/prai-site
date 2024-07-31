@@ -24,7 +24,6 @@
 <script>
 	import { Swiper, SwiperSlide } from "swiper/vue";
 	import { Scrollbar } from 'swiper/modules';
-	import PraiUiIcon from "/components/ui/PraiUiIcon.vue";
 	import {useServicesStore} from "/store/services";
 	import {useUtilsStore} from "/store/utils";
 	import {useModalStore} from "/store/modal";
@@ -104,6 +103,9 @@
 			.footer-services .link{
 				column-gap: 24px;
 			}
+		}
+		@media(max-width: 768px){
+			background: getColorTransparent($bg-block-black, 0.9);
 		}
 		&-bg{
 			position: absolute;

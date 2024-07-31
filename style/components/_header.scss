@@ -5,7 +5,7 @@
 	background: var(--bgHeader);
 	border-radius: $radius-big;
 	width: calc(100% - 84px);
-	max-width: calc(1080px - 84px);
+	max-width: calc(1080px - 81px);
 	position: fixed;
 	z-index: 100;
 	top: 30px;
@@ -80,6 +80,11 @@
 		}
 		input{
 			display: none;
+		}
+		@media(max-width: 768px){
+			&:hover{
+				background: transparent;
+			}
 		}
 	}
 	&-sidebar{

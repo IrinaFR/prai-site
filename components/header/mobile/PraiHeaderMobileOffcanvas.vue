@@ -34,7 +34,7 @@
 		left: 0;
 		z-index: 110;
 		width: 100vw;
-		height: 100vh;
+		height: calc(100vh - env(safe-area-inset-top));
 		background: $white;
 		transform: translateX(100%);
 		transition: $anim-long;

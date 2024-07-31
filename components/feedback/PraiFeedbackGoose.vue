@@ -9,7 +9,7 @@
 					.subtitle-card.uppercase(:class="props.class") Обратная связь
 					h2.title.mb-0 Заказать звонок
 				.description Оставьте номер телефона и мы вам перезвоним
-				PraiFormFeedback(id="gooseFeedback" full-btn text="Связаться с нами" :title="`Блок с гусём на странице ${$route.fullPath}`" @send="$_feedback_goose_showSuccesModal" :class="$props.class")
+				PraiFormFeedback(id="gooseFeedback" full-btn text="Связаться с нами" :title="`Блок с гусём на странице ${$route.fullPath}`" :class="$props.class")
 			PraiFeedbackSocial(vertical)
 .feedback-offset
 </template>
@@ -28,9 +28,6 @@
 	})
 	const storeModal = useModalStore()
 
-	async function $_feedback_goose_showSuccesModal(){
-		console.log('TODO success')
-	}
 </script>
 
 <style lang="scss">

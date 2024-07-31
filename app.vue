@@ -1,8 +1,8 @@
 <template lang="pug">
 nuxt-loading-indicator
 nuxt-layout
-	PraiHeader(v-if="storeUtils.getWidth>768")
-	PraiMobileHeader(v-else)
+	PraiHeader(v-if="storeUtils.getWidth>768 && loaded")
+	PraiMobileHeader(v-else-if="loaded")
 	nuxt-page
 	PraiFooter(v-if="$route.name!=='contacts'" )
 	PraiUiCookies
@@ -49,8 +49,11 @@ PraiUiNotifications
 		}
 		return null
 	}
+
+	const loaded = ref(false)
 	function $_prai_app_updateWidth() {
 		storeUtils.setWidthScreen(+window.innerWidth)
+		loaded.value = true
 	}
 
 	console.log('%c Хочешь к нам в команду? \n info@prai.su', 'font-size:20px; font-weight:700; color:#0072FA;')

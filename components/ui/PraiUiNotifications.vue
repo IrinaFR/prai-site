@@ -2,7 +2,7 @@
 .contentNotifications(v-if="storeNotification.notifications.length")
 	transition-group(name="notification" tag="p")
 		.notification(v-for="(n, index) in storeNotification.getNotifications" :key="n.id" :class="n.type")
-			img.icon(:src="'/img/' + n.img" v-if="n.img")
+			img.icon(:src="'/img' + n.img" v-if="n.img")
 			.text(v-html="n.text")
 			.del(@click="storeNotification.addNotification({delete:index})")
 				img(src="/img/feedback/close-grey.svg")

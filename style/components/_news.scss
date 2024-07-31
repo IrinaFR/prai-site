@@ -1,5 +1,8 @@
 .root-news{
 	padding-top: 160px;
+	@media(max-width: 768px){
+		padding-top: 100px;
+	}
 	.news-filter{
 		padding: 67px 10px;
 		border-radius: $radius-small;
@@ -200,6 +203,9 @@
 // страница новостей
 .root-news-page{
 	padding-top: 160px;
+	@media(max-width: 768px){
+		padding-top: 100px;
+	}
 	.container{
 		display: grid;
 		grid-column-gap: 35px;

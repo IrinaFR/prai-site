@@ -19,8 +19,6 @@ header.header-mobile(:class="{opened:openMenu}")
 	.header-mobile-sidebar
 		.links
 			nuxt-link(to="/") Главная
-			//hr
-			//nuxt-link(to="/") О нас
 			hr
 			nuxt-link(to="/cases") Кейсы
 			hr
@@ -34,16 +32,21 @@ header.header-mobile(:class="{opened:openMenu}")
 			hr
 			nuxt-link(to="/contacts") О нас
 		.contacts
-			button.btn Обсудить проект
+			button.btn(@click="$_mobile_header_openModal('Кнопка обсудить проект')") Обсудить проект
 			.contacts-links
-				img(src="/img/contacts/vk.svg" alt="Вконтакте")
-				img(src="/img/contacts/behance.svg" alt="behance")
-				img(src="/img/contacts/telegram.svg" alt="telegram")
+				a(href="https://vk.com/prai_vk" target="_blank")
+					img(src="/img/contacts/vk.svg" alt="Мы во Вконтакте")
+				a(href="https://t.me/PRAI_service" target="_blank")
+					img(src="/img/contacts/telegram.svg" alt="Мы в Телеграм")
+				a(href="https://vc.ru/u/2379173-prai" target="_blank")
+					img(src="/img/contacts/vc.svg" alt="Мы на vc.ru")
+				a(href="https://habr.com/ru/users/BorisShishkin/" target="_blank")
+					img(src="/img/contacts/habr.svg" alt="Мы на Habr")
 PraiHeaderMobileOffcanvas(v-if="showServices" @close="showServices=false, openMenu=false" @back="showServices=false" ref="offcanvasServices")
 	nuxt-link.list-mobile-services-item(:to="link.link" v-for="link in store.getMainServices")
 		.title {{link.title}}
 		.description {{link.desc}}
-	.list-mobile-services-item(v-for="link in store.getOtherServices" @click="$_mobile_header_openModal(link.title)")
+	.list-mobile-services-item(v-for="link in store.getOtherServices" @click="$_mobile_header_openModal(link.title, true)")
 		.title {{link.title}}
 PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMenu=false" @back="showProducts=false" ref="offcanvasProducts")
 	nuxt-link.list-mobile-services-item(to="/" v-for="link in store.getOurProducts")
@@ -76,11 +79,12 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 			'$route.path'(){
 				if(this.showServices) this.$refs.offcanvasServices.$_header_mobile_offcanvas_toggle('close')
 				if(this.showProducts) this.$refs.offcanvasProducts.$_header_mobile_offcanvas_toggle('close')
+				this.openMenu = false
 			}
 		},
 		methods: {
-			$_mobile_header_openModal(link){
-				this.$refs.offcanvasServices.$_header_mobile_offcanvas_toggle('close')
+			$_mobile_header_openModal(link, close){
+				if(close) this.$refs.offcanvasServices.$_header_mobile_offcanvas_toggle('close')
 				this.storeModal.openModalFeedback('Услуга в меню - ' + link)
 			}
 		}
@@ -91,8 +95,8 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 <style scoped lang="scss">
 	.header-mobile{
 		position: fixed;
-		width: calc(100vw - 40px);
-		padding: 0 20px;
+		width: calc(100vw - 20px);
+		padding-left: 20px;
 		top: 0;
 		left: 0;
 		z-index: 100;
@@ -149,6 +153,7 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 			}
 			.header-mobile-sidebar{
 				opacity: 1;
+				transition-delay: .5s;
 			}
 		}
 		&-title{
@@ -185,6 +190,7 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 			height: calc(100% - 54px);
 			opacity: 0;
 			transition: $anim-long;
+			transition-delay: 0;
 			.links{
 				width: 100%;
 				display: flex;
@@ -203,6 +209,9 @@ PraiHeaderMobileOffcanvas(v-if="showProducts" @close="showProducts=false, openMe
 					img{
 						transform: rotate(-90deg);
 						filter: brightness(0);
+					}
+					&.router-link-active.router-link-exact-active{
+						color: $blue;
 					}
 				}
 				hr{

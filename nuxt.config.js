@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 	ssr: true,
 	build: {
 		transpile: ['gsap'],
-		extractCSS: true, // разбивает css в отдельны файл, для кэширования
+		// extractCSS: true, // разбивает css в отдельны файл, для кэширования
 		terser: {
 			terserOptions: {
 				compress: {
@@ -21,9 +21,11 @@ export default defineNuxtConfig({
 		// csp: {
 		// 	policies: {
 		// 		'default-src': ["'self'"],
-		// 		'img-src': ['https:', 'data:'],
+		// 		'img-src': ['https:', 'https://team.prai.su', 'https://core-renderer-tiles.maps.yandex.net', 'https://yandex.ru', 'data:'],
 		// 		'script-src': ["'self'", "'unsafe-inline'"],
 		// 		'style-src': ["'self'"],
+		// 		"content-src": ["'self'", 'https://team.prai.su', 'data:', ' https://core-renderer-tiles.maps.yandex.net', 'https://yandex.ru', 'https://api-maps.yandex.ru'],
+		// 		'object-src': ["'self'", 'none']
 		// 	}
 		// }
 	},
@@ -68,7 +70,7 @@ export default defineNuxtConfig({
 				},
 				{
 					'http-equiv': 'Content-Security-Policy',
-					content: "img-src 'self' https://team.prai.su data: https://core-renderer-tiles.maps.yandex.net https://yandex.ru;connect-src 'self' geocode-maps.yandex.ru data: https://core-renderer-tiles.maps.yandex.net https://yandex.ru https://api-maps.yandex.ru;font-src 'self' none;object-src 'self' none;"
+					content: "script-src 'self' https://team.prai.su https://www.googletagmanager.com data: blob: https://api-maps.yandex.ru https://yastatic.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://team.prai.su data: https://core-renderer-tiles.maps.yandex.net https://yandex.ru; connect-src 'self' https://team.prai.su https://yastatic.net data: https://core-renderer-tiles.maps.yandex.net https://yandex.ru https://api-maps.yandex.ru;"
 				}
 			],
 			link: [
@@ -123,9 +125,9 @@ export default defineNuxtConfig({
 		static: {
 			dir: 'img',
 		},
-		cache: { // 23 часа
-			maxAge: 60 * 60 * 23,
-		},
+		// cache: { // 23 часа
+		// 	maxAge: 60 * 60 * 23,
+		// },
 	},
 	css: ['~/style/style.scss'],
 	modules: [
@@ -134,8 +136,13 @@ export default defineNuxtConfig({
 		'@nuxt/image',
 		'nuxt-swiper',
 		'vue-yandex-maps/nuxt',
+		"@nuxtjs/sitemap",
+		'@nuxtjs/robots'
 		// '@nuxtjs/seo'
 	],
+	robots: {
+		UserAgent: '*',
+	},
 	yandexMaps: {
 		apikey: process.env.NUXT_API_YANDEX_MAPS,
 	},
@@ -151,4 +158,23 @@ export default defineNuxtConfig({
 		client: false
 	},
 	devtools: { enabled: true },
+	site: {
+		url: 'https://team.prai.su',
+	},
+	sitemap: {
+		hostname: 'https://team.prai.su', // Замените на ваш домен
+		routes: async () => {
+			// Тут надо дописать, чтобы ссылки на новости и кейсы добавлялись. Это есть в документации плагина
+			return [
+				'/page1',
+				'/page2',
+				'/dynamic-page/1',
+				'/dynamic-page/2'
+			];
+		},
+		gzip: true, // Включает сжатие карты сайта
+		changefreq: 'daily', // Частота обновления страниц
+		priority: 1.0, // Приоритет страниц
+		// Вы можете добавить другие настройки здесь
+	}
 })

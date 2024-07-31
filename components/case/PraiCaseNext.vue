@@ -95,6 +95,9 @@
 					&.min{
 						height: 50px;
 					}
+					img{
+						border-radius: 0 !important;
+					}
 				}
 			}
 			&:hover{
