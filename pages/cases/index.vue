@@ -78,7 +78,7 @@
 	})
 	if(data.value) $_case_index_setData(data.value)
 	async function $_case_index_loadCase(){
-		const res = await $makeRequest('POST', 'cases/all', {
+		const res = await $makeRequest('POST', 'cases/active', {
 			id_case: lastId.value,
 			search: search.value
 		})
