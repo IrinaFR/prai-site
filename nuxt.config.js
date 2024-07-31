@@ -85,6 +85,7 @@ export default defineNuxtConfig({
 			{src: '/script/gtm.js'}
 		]
 		// pageTransition: { name: 'page', mode: 'out-in' }
+		// плохо работает из-за футера
 	},
 	typescript: {
 		strict: false
@@ -162,7 +163,7 @@ export default defineNuxtConfig({
 		url: 'https://team.prai.su',
 	},
 	sitemap: {
-		hostname: 'https://team.prai.su', // Замените на ваш домен
+		hostname: 'https://team.prai.su',
 		routes: async () => {
 			// Тут надо дописать, чтобы ссылки на новости и кейсы добавлялись. Это есть в документации плагина
 			return [
@@ -173,8 +174,7 @@ export default defineNuxtConfig({
 			];
 		},
 		gzip: true, // Включает сжатие карты сайта
-		changefreq: 'daily', // Частота обновления страниц
+		changefreq: 'daily', // Частота обновления страниц (т.к. чтобы обновлялись кейсы и новости)
 		priority: 1.0, // Приоритет страниц
-		// Вы можете добавить другие настройки здесь
 	}
 })
